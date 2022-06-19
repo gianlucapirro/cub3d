@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/19 12:19:52 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/19 12:46:18 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,9 @@ $(LIBMLXDIR)/$(LIBMLX) :
 
 %.o: %.c $(INC)
 	$(CC) -c $(CFLAGS) -I $(INCL) -o $@ $<
+
+norminette:
+	norminette	gnl libft list srcs $(filter-out ./includes/mlx.h, $(shell ls $(addprefix $(INCL), *.h)))
 
 sanitize: fclean
 	@$(MAKE) sanitize=1
