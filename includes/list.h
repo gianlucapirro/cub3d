@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 17:19:09 by jsiegers          #+#    #+#             */
-/*   Updated: 2022/06/19 11:32:05 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/19 12:23:19 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stddef.h>
+
 typedef struct s_node_m
 {
 	void			*value;
