@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/19 11:49:04 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/19 17:14:13 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
  * @brief Tries to open filename (fn). If open fails then it will exit with
- * a corresponding exit message. Else it will parse the whole file into the
- * linked list linesread.
+ * a corresponding exit message. Else it will parse the whole file line by line
+ * into the linked list linesread.
  * 
  * @param fn 
  * @param linesread 
@@ -75,6 +75,13 @@ int	calc_dimensions(t_list_m *linesread, int dimensions[2])
 	return (SUCCES);
 }
 
+/**
+ * @brief Checks what type of map object the char c is. 
+ * Floor, Wall, Start_N/S/W/E, Empty, Other
+ * 
+ * @param c 
+ * @return Map object type of char c
+ */
 int	get_map_object_type(char c)
 {
 	if (c == '0')
@@ -95,7 +102,8 @@ int	get_map_object_type(char c)
 }
 
 /**
- * @brief turns t_list_m into a 2d int array
+ * @brief loops till the end of linesread, for every char in the str
+ * of each read line it will put the value in the map.
  * 
  * @param linesread 
  * @param map 
@@ -104,37 +112,41 @@ int	get_map_object_type(char c)
 int	lst2maparray(t_list_m *linesread, int dimensions[2], int ***map)
 {
 	char	*buffer;
-	int		i;
-	int		j;
+	int		y;
+	int		x;
 
 	(*map) = pcalloc(sizeof(int *) * dimensions[1]);
-	i = 0;
-	while (i < dimensions[1])
+	y = 0;
+	while (y < dimensions[1])
 	{
-		(*map)[i] = pcalloc(sizeof(int) * dimensions[0]);
-		list_m_get(linesread, (void **)&buffer, i);
-		j = 0;
-		while (buffer[j] && buffer[j] != '\n')
+		(*map)[y] = pcalloc(sizeof(int) * dimensions[0]);
+		list_m_get(linesread, (void **)&buffer, y);
+		x = 0;
+		while (buffer[x] && buffer[x] != '\n')
 		{
-			(*map)[i][j] = get_map_object_type(buffer[j]);
-			j++;
+			(*map)[y][x] = get_map_object_type(buffer[x]);
+			x++;
 		}
-		i++;
+		y++;
 	}
 	return (0);
 }
 
-//TODO: Make a config struct where we can place the map
-int	parse(char *fn)
+/**
+ * @brief Parse all necesarry information out of fn into
+ * the config struct
+ * 
+ * @param fn 
+ * @param config 
+ * @return int 
+ */
+int	parse(char *fn, t_config *config)
 {
 	t_list_m	*linesread;
-	int			dimensions[2];
-	int			**map;
 
 	map2list(fn, &linesread);
-	calc_dimensions(linesread, dimensions);
-	lst2maparray(linesread, dimensions, &map);
+	calc_dimensions(linesread, config->dimensions);
+	lst2maparray(linesread, config->dimensions, &config->map);
 	list_m_free(linesread, 1);
-	print_maparray(dimensions, map);
 	return (0);
 }

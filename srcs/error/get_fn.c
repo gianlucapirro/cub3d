@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_fn.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/04 09:32:30 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/19 16:41:27 by gianlucapir      ###   ########.fr       */
+/*   Created: 2022/06/19 16:19:21 by gianlucapir       #+#    #+#             */
+/*   Updated: 2022/06/19 16:34:33 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
-#include <stdio.h>
+#include <cub3d.h>
 
-int	main(int argc, char *argv[])
+void	get_fn(char **fn, char *argv[])
 {
-	t_config	config;
-	char		*fn;
+	int	fd;
 
-	get_fn(&fn, argv);
-	parse(fn, &config);
-	error_handling(argc, &config);
-	return (0);
+	fd = open(argv[1], O_RDONLY);
+	if (fd != -1)
+		(*fn) = argv[1];
+	else
+		exit_error("Could not open map", OPEN_ERROR);
+	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/19 11:50:28 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/19 17:11:19 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 # include <list.h>
 # include <gnl.h>
 
+typedef struct s_config
+{
+	int	**map;
+	int	dimensions[2];
+}	t_config;
+
 typedef enum s_status
 {
 	SUCCES,
@@ -32,7 +38,9 @@ typedef enum s_status
 	CLOSE_ERROR,
 	PARSE_ERROR,
 	MLX_ERROR,
-	MALLOC_ERROR
+	MALLOC_ERROR,
+	ARGUMENT_ERROR,
+	INVALID_MAP
 }	t_status;
 
 typedef enum s_direction
@@ -64,6 +72,8 @@ void	exit_error(char *msg, int exitcode);
 int		is_valid_c(char c);
 void	*pcalloc(size_t	size);
 void	print_maparray(int dimensions[2], int **map);
-int		parse(char *fn);
+int		parse(char *fn, t_config *config);
+void	get_fn(char **fn, char *argv[]);
+void	error_handling(int argc, t_config *config);
 
 #endif

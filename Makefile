@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/19 12:55:52 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/19 16:23:12 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME 		= 	CUB3D
 
 ################################## VPATH
 
-VPATH		=	./list/ ./srcs/ ./srcs/parsing/ ./srcs/utils/
+VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/
 
 ################################## LIBRARIES
 
@@ -32,9 +32,9 @@ LIST		= 	list_m_add.c \
 		  		list_m_to_array.c
 
 LIBFT 		= 	libft/libft.a
-LIBFTDIR	= 	libft
+LIBFTDIR	= 	./libft/
 
-GNL			=	gnl/get_next_line.c
+GNL			=	get_next_line.c
 
 LIBMLXDIR	=	 mlx
 MLX_INCLUDE = 	-framework OpenGL -framework AppKit
@@ -46,7 +46,9 @@ LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
 PARSING		=	parsing.c\
 				parsingutils.c
 
-UTILS		=	exit.c
+ERROR		=	exit.c\
+				error.c\
+				get_fn.c
 
 ################################## FLAGS
 
@@ -61,7 +63,7 @@ endif
 
 SRCS		=	$(LIST) $(GNL) \
 				$(PARSING) \
-				$(UTILS) \
+				$(ERROR) \
 				main.c
 
 OBJS 		= 	$(SRCS:.c=.o)
@@ -83,7 +85,7 @@ $(LIBFT) :
 $(LIBMLXDIR)/$(LIBMLX) :
 	make -C $(LIBMLXDIR) all
 
-%.o: %.c $(INC)
+%.o: %.c $(INCL)
 	$(CC) -c $(CFLAGS) -I $(INCL) -o $@ $<
 
 norminette:
@@ -93,13 +95,11 @@ sanitize: fclean
 	@$(MAKE) sanitize=1
 
 clean:
-	@echo "$(REDL_FG)Deleting .o$(CLEAR_COLOR)"
 	cd $(LIBFTDIR) && make clean
-	# cd $(LIBMLXDIR) && make clean
+	cd $(LIBMLXDIR) && make clean
 	rm -rf $(OBJS) $(LIBFT) $(LIBMLX)
 
 fclean:		clean
-	@echo "$(RED_FG)Deleting exe$(CLEAR_COLOR)"
 	cd $(LIBFTDIR) && make fclean
 	cd $(LIBMLXDIR) && make clean
 	rm -f $(NAME) a.out

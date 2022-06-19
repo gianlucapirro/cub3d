@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 01:01:26 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/19 12:46:32 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/19 15:33:20 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ void	*pcalloc(size_t	size)
 	return (new);
 }
 
+/**
+ * @brief Loops over map and prints every int.
+ * the dimensions must be passed in format x-y
+ * (dimensions[x][y]).
+ * 
+ * @param dimensions 
+ * @param map 
+ */
 void	print_maparray(int dimensions[2], int **map)
 {
 	int	i;
