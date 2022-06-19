@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/19 12:46:18 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/19 12:55:52 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ OBJS 		= 	$(SRCS:.c=.o)
 
 ################################## INCLUDES
 
-INCL 		= 	./includes/
+INCL 		= 	./includes
 
 ################################## LINKING AND COMPILING
 
@@ -87,7 +87,7 @@ $(LIBMLXDIR)/$(LIBMLX) :
 	$(CC) -c $(CFLAGS) -I $(INCL) -o $@ $<
 
 norminette:
-	norminette	gnl libft list srcs $(filter-out ./includes/mlx.h, $(shell ls $(addprefix $(INCL), *.h)))
+	norminette	gnl libft list srcs $(filter-out ./includes/mlx.h ./includes/.DS_Store, $(shell find $(INCL) -mindepth 1))
 
 sanitize: fclean
 	@$(MAKE) sanitize=1
