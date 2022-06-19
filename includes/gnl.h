@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   gnl.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 14:36:49 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/18 13:32:06 by gianlucapir      ###   ########.fr       */
+/*   Created: 2022/06/18 18:42:06 by gianlucapir       #+#    #+#             */
+/*   Updated: 2022/06/18 18:42:12 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GNL_H
+# define GNL_H
 
-void	ft_putnbr_fd(int n, int fd)
-{
-	unsigned int	nbr;
+char				*get_next_line(int fd);
 
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		nbr = n * -1;
-	}
-	else
-		nbr = n;
-	if (nbr >= 10)
-		ft_putnbr_fd((nbr / 10), fd);
-	ft_putchar_fd((nbr % 10 + '0'), fd);
-}
+#endif

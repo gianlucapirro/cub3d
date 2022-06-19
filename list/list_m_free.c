@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   list_m_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 14:36:49 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/18 13:32:06 by gianlucapir      ###   ########.fr       */
+/*   Created: 2021/12/29 16:27:53 by jsiegers          #+#    #+#             */
+/*   Updated: 2022/06/19 11:32:50 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "list.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int	list_m_free(t_list_m *list, int freeobj)
 {
-	unsigned int	nbr;
+	t_node_m	*elem;
+	t_node_m	*next;
 
-	if (n < 0)
+	if (list == NULL)
+		return (1);
+	elem = list->head;
+	while (elem)
 	{
-		ft_putchar_fd('-', fd);
-		nbr = n * -1;
+		if (freeobj)
+			free(elem->value);
+		next = elem->next;
+		free(elem);
+		elem = next;
 	}
-	else
-		nbr = n;
-	if (nbr >= 10)
-		ft_putnbr_fd((nbr / 10), fd);
-	ft_putchar_fd((nbr % 10 + '0'), fd);
+	free(list);
+	return (0);
 }

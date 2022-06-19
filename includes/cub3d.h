@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/18 01:26:05 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/19 11:50:28 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,51 @@
 # include <math.h>
 # include <errno.h>
 # include <unistd.h>
-# include "mlxlinux.h"
 # include "libft.h"
+# include <mlx.h>
+# include <list.h>
+# include <gnl.h>
 
-# define AZERTY			0
-# define OPEN_ERROR		-1
-# define CLOSE_ERROR	-2
-# define PARSE_ERROR	-3
-# define MLX_ERROR		-4
-# define MALLOC_ERROR	-5
+typedef enum s_status
+{
+	SUCCES,
+	FAILED,
+	OPEN_ERROR,
+	CLOSE_ERROR,
+	PARSE_ERROR,
+	MLX_ERROR,
+	MALLOC_ERROR
+}	t_status;
 
-# define THETA			0.05
-# define SPEED_MOVE		0.15
-# define CEILING_COLOR	6185465
-# define FLOOR_COLOR	2105376
-# define FOV			0.66
+typedef enum s_direction
+{
+	NORH,
+	WEST,
+	SOUTH,
+	EAST
+}	t_direction;
+
+typedef enum s_objects
+{
+	EMPTY,
+	FLOOR,
+	WALL,
+	START_N,
+	START_W,
+	START_S,
+	START_E,
+	OTHER
+}	t_objects;
 
 # define GREY			11184810
 # define RED			16711680
 # define WHITE			16777215
 # define PINK			16727215
 
-# define MAX_WIDE		3840
-# define NB_TEXTURES	5
-# define WHITE_SPACES	" \t"
-# define NB_ELEM_RES	3
-# define NB_ELEM_TEX	2
-# define NB_ELEM_COLOR	2
-
-# define SOUTH			0
-# define EAST			1
-# define NORTH			2
-# define WEST			3
-# define SPRITE			4
+void	exit_error(char *msg, int exitcode);
+int		is_valid_c(char c);
+void	*pcalloc(size_t	size);
+void	print_maparray(int dimensions[2], int **map);
+int		parse(char *fn);
 
 #endif
