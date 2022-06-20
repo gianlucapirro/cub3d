@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/19 17:14:13 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/20 13:57:39 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,9 @@ int	parse(char *fn, t_config *config)
 	calc_dimensions(linesread, config->dimensions);
 	lst2maparray(linesread, config->dimensions, &config->map);
 	list_m_free(linesread, 1);
+	config->player_size[0] = 10;
+	config->player_size[1] = 10;
+	config->block_size[0] = 30;
+	config->block_size[1] = 30;
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/19 16:23:12 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/20 13:38:27 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME 		= 	CUB3D
 
 ################################## VPATH
 
-VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/
+VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events
 
 ################################## LIBRARIES
 
@@ -44,7 +44,10 @@ LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
 ################################## DIRECTORIES
 
 PARSING		=	parsing.c\
-				parsingutils.c
+				parsingutils.c\
+				startingpos.c
+
+EVENTS		=	keypress.c
 
 ERROR		=	exit.c\
 				error.c\
@@ -53,7 +56,7 @@ ERROR		=	exit.c\
 ################################## FLAGS
 
 CC			=	 gcc
-CFLAGS 		+= 	-Wall -Werror -Wextra -g
+CFLAGS 		+= 	-Wall -fsanitize=address -Wextra -g
 
 ifdef sanitize
 CFLAGS 		=	-Wall -fsanitize=address -Wextra -g
@@ -64,6 +67,9 @@ endif
 SRCS		=	$(LIST) $(GNL) \
 				$(PARSING) \
 				$(ERROR) \
+				$(EVENTS) \
+				render.c \
+				minimap.c \
 				main.c
 
 OBJS 		= 	$(SRCS:.c=.o)

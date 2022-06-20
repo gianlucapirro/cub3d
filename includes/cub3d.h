@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/19 17:11:19 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/20 14:07:37 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,36 @@
 # include <errno.h>
 # include <unistd.h>
 # include "libft.h"
+# include <stdbool.h>
 # include <mlx.h>
 # include <list.h>
 # include <gnl.h>
 
+typedef struct s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}		t_data;
+
 typedef struct s_config
 {
-	int	**map;
-	int	dimensions[2];
+	int		**map;
+	int		dimensions[2];
+	int		player_size[2];
+	int		block_size[2];
+	float	pos[2];
+	void	*mlx;
+	void	*mlx_win;
 }	t_config;
+
+
+typedef enum s_bool
+{
+	FALSE,
+	TRUE
+}	t_bool;
 
 typedef enum s_status
 {
@@ -63,10 +84,34 @@ typedef enum s_objects
 	OTHER
 }	t_objects;
 
-# define GREY			11184810
-# define RED			16711680
-# define WHITE			16777215
-# define PINK			16727215
+typedef enum e_keys
+{
+	ARROW_R	= 124,
+	ARROW_L	= 123,
+	ARROW_U	= 125,
+	ARROW_D	= 126,
+	PAGE_U	= 116,
+	PAGE_D	= 121,
+	PLUS	= 24,
+	ESC		= 53,
+	MIN		= 27,
+	Q		= 12,
+	W		= 13,
+	E		= 14,
+	A		= 0,
+	S		= 1,
+	D		= 2
+}	t_keys;
+
+# define GREY			0x00808080
+# define RED			0x00FF0000
+# define WHITE			0x00FFFFFF
+# define PINK			0x00FF1493
+# define BLACK			0x00000000
+
+# define WINDOW_WIDTH 1300
+# define WINDOW_HEIGHT 1000
+# define PI 3.14159
 
 void	exit_error(char *msg, int exitcode);
 int		is_valid_c(char c);
@@ -75,5 +120,13 @@ void	print_maparray(int dimensions[2], int **map);
 int		parse(char *fn, t_config *config);
 void	get_fn(char **fn, char *argv[]);
 void	error_handling(int argc, t_config *config);
+int		render_next_frame(void *tmp);
+int		draw_minimap(t_config *config, t_data *img_data);
+int		draw_rectangle(int pos[2], int dimensions[2], \
+		t_data *img_data, int color);
+int		encode_rgb(u_int8_t r, u_int8_t g, u_int8_t b);
+int		get_start_pos(t_config *config);
+int		key_press(int keycode, t_config	*config);
+
 
 #endif
