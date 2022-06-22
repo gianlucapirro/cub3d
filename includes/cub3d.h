@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/20 14:07:37 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/22 17:37:43 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <mlx.h>
 # include <list.h>
 # include <gnl.h>
+# include <math.h>
 
 typedef struct s_data {
 	void	*img;
@@ -32,6 +33,11 @@ typedef struct s_data {
 	int		line_length;
 	int		endian;
 }		t_data;
+
+typedef struct s_point {
+	int	x;
+	int	y;
+}	t_point;
 
 typedef struct s_config
 {
@@ -44,6 +50,12 @@ typedef struct s_config
 	void	*mlx_win;
 }	t_config;
 
+typedef struct s_matrix
+{
+	float	**mat;
+	int		w;
+	int		h;
+}	t_matrix;
 
 typedef enum s_bool
 {
@@ -114,8 +126,9 @@ typedef enum e_keys
 # define PI 3.14159
 
 void	exit_error(char *msg, int exitcode);
-int		is_valid_c(char c);
 void	*pcalloc(size_t	size);
+
+int		is_valid_c(char c);
 void	print_maparray(int dimensions[2], int **map);
 int		parse(char *fn, t_config *config);
 void	get_fn(char **fn, char *argv[]);
@@ -127,6 +140,15 @@ int		draw_rectangle(int pos[2], int dimensions[2], \
 int		encode_rgb(u_int8_t r, u_int8_t g, u_int8_t b);
 int		get_start_pos(t_config *config);
 int		key_press(int keycode, t_config	*config);
+int		is_start_pos(char c);
+int		alloc_2d_array(int w, int h, int size, void ***array);
+int		matmul(t_matrix a, t_matrix b, t_matrix *res);
+void	draw_line(t_data *data, t_point *p1, t_point *p2);
+void	put_pixel(t_data *data, int x, int y, int color);
 
+int		h2e(t_matrix *a);
+int		e2h(t_matrix *a);
+
+int		print_matrix(t_matrix a);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/20 14:21:58 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/22 17:12:20 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	draw_rectangle(int pos[2], int dimensions[2], t_data *img_data, int color)
 	const int	y = pos[1];
 	int			w;
 	int			h;
-	
 
 	w = -1;
 	while (++w < dimensions[0])

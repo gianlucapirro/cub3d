@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 16:13:45 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/20 14:32:44 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/20 18:55:20 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,21 @@
  * @param y 
  * @return int 
  */
-static int	pos_valid(t_config	*config, float x, float y)
+static int	is_valid_pos(t_config	*config, float x, float y)
 {
-	// (void)(x);
-	// (void)(y);
-	// (void)(config);
-	
-
 	int	pos_left;
 	int	pos_right;
 	int	pos_top;
 	int	pos_bottom;
 
-	pos_left = (int)(x * config->block_size[0] - config->player_size[0] / 2) / config->block_size[0];
-	pos_right = (int)(x * config->block_size[0] + config->player_size[0] / 2) / config->block_size[0];
-	pos_top = (int)(y * config->block_size[1] + config->player_size[1] / 2) / config->block_size[1];
-	pos_bottom = (int)(y * config->block_size[1] - config->player_size[1] / 2) / config->block_size[1];
-
+	pos_left = (int)(x * config->block_size[0] - \
+	config->player_size[0] / 2) / config->block_size[0];
+	pos_right = (int)(x * config->block_size[0] + \
+	config->player_size[0] / 2) / config->block_size[0];
+	pos_top = (int)(y * config->block_size[1] + \
+	config->player_size[1] / 2) / config->block_size[1];
+	pos_bottom = (int)(y * config->block_size[1] - \
+	config->player_size[1] / 2) / config->block_size[1];
 	if ((config->map)[pos_top][pos_left] != FLOOR)
 		return (FALSE);
 	if ((config->map)[pos_bottom][pos_left] != FLOOR)
@@ -55,13 +53,13 @@ of the keycodes in the if statements an action will take place.
 */
 int	key_press(int key, t_config	*config)
 {
-	if (key == W && pos_valid(config, config->pos[0], config->pos[1] - 0.05))
+	if (key == W && is_valid_pos(config, config->pos[0], config->pos[1] - 0.05))
 		config->pos[1] -= 0.05;
-	if (key == A && pos_valid(config, config->pos[0] - 0.05, config->pos[1]))
+	if (key == A && is_valid_pos(config, config->pos[0] - 0.05, config->pos[1]))
 		config->pos[0] -= 0.05;
-	if (key == S && pos_valid(config, config->pos[0], config->pos[1] + 0.05))
+	if (key == S && is_valid_pos(config, config->pos[0], config->pos[1] + 0.05))
 		config->pos[1] += 0.05;
-	if (key == D && pos_valid(config, config->pos[0] + 0.05, config->pos[1]))
+	if (key == D && is_valid_pos(config, config->pos[0] + 0.05, config->pos[1]))
 		config->pos[0] += 0.05;
 	return (0);
 }

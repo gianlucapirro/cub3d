@@ -6,27 +6,11 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:41:29 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/20 12:13:30 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/20 18:50:28 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-/**
- * @brief checks if char c is equal to a macro of a
- * player starting direction. START_N, START_W, START_S
- * START_E 
- * 
- * @param c 
- * @return int 
- */
-static int	is_start_pos(char c)
-{
-	if (c == START_E || c == START_N || c == START_S || c == START_W)
-		return (1);
-	else
-		return (0);
-}
 
 /**
  * @brief Checks if there is one start position in map.
@@ -140,5 +124,4 @@ void	error_handling(int argc, t_config *config)
 		exit_error("Map not surrounder by walls", INVALID_MAP);
 	if (is_surrounded_walls_v(config) == FAILED)
 		exit_error("Map not surrounder by walls", INVALID_MAP);
-	(void)config;
 }

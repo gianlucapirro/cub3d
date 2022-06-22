@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   startingpos.c                                      :+:      :+:    :+:   */
+/*   errorutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 13:22:22 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/20 18:48:59 by gianlucapir      ###   ########.fr       */
+/*   Created: 2022/06/18 18:53:29 by gianlucapir       #+#    #+#             */
+/*   Updated: 2022/06/20 18:52:36 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	get_start_pos(t_config *config)
+void	exit_error(char *msg, int exitcode)
 {
-	int	x;
-	int	y;
-	int	p;
+	perror(msg);
+	exit(exitcode);
+}
 
-	x = -1;
-	while (++x < config->dimensions[0])
-	{
-		y = -1;
-		while (++y < config->dimensions[1])
-		{
-			p = config->map[y][x];
-			if (p == START_E || p == START_N || p == START_W || p == START_S)
-			{
-				config->pos[0] = x + 0.5;
-				config->pos[1] = y + 0.5;
-				config->map[y][x] = FLOOR;
-				return (SUCCES);
-			}
-		}
-	}
-	return (FAILED);
+/**
+ * @brief checks if char c is equal to a macro of a
+ * player starting direction. START_N, START_W, START_S
+ * START_E 
+ * 
+ * @param c 
+ * @return int 
+ */
+int	is_start_pos(char c)
+{
+	if (c == START_E || c == START_N || c == START_S || c == START_W)
+		return (1);
+	else
+		return (0);
 }

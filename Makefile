@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/20 13:38:27 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/22 17:20:31 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME 		= 	CUB3D
 
 ################################## VPATH
 
-VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events
+VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events ./srcs/camera ./srcs/drawing ./srcs/debug
 
 ################################## LIBRARIES
 
@@ -49,9 +49,17 @@ PARSING		=	parsing.c\
 
 EVENTS		=	keypress.c
 
-ERROR		=	exit.c\
-				error.c\
+ERROR		=	error.c\
+				errorutils.c\
 				get_fn.c
+
+CAMERA		=	matrix.c \
+				utils.c
+
+DRAWING		=	quad.c\
+				drawline.c
+
+DEBUG		=	matrix.c
 
 ################################## FLAGS
 
@@ -68,6 +76,9 @@ SRCS		=	$(LIST) $(GNL) \
 				$(PARSING) \
 				$(ERROR) \
 				$(EVENTS) \
+				$(CAMERA) \
+				$(DRAWING) \
+				$(DEBUG) \
 				render.c \
 				minimap.c \
 				main.c
