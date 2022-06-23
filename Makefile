@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/22 17:20:31 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/23 17:27:19 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,9 @@ ERROR		=	error.c\
 				errorutils.c\
 				get_fn.c
 
-CAMERA		=	matrix.c \
-				utils.c
+CAMERA		=	mathmat.c \
+				utils.c\
+				camera.c
 
 DRAWING		=	quad.c\
 				drawline.c
@@ -64,7 +65,7 @@ DEBUG		=	matrix.c
 ################################## FLAGS
 
 CC			=	 gcc
-CFLAGS 		+= 	-Wall -fsanitize=address -Wextra -g
+CFLAGS 		+= 	-Wall -Werror -Wextra -g
 
 ifdef sanitize
 CFLAGS 		=	-Wall -fsanitize=address -Wextra -g

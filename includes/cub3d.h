@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/22 17:37:43 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/23 17:36:01 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ typedef struct s_matrix
 	int		w;
 	int		h;
 }	t_matrix;
+
+typedef struct s_camera
+{
+	t_matrix	*internal;
+	t_matrix	*external;
+}	t_camera;
 
 typedef enum s_bool
 {
@@ -142,13 +148,19 @@ int		get_start_pos(t_config *config);
 int		key_press(int keycode, t_config	*config);
 int		is_start_pos(char c);
 int		alloc_2d_array(int w, int h, int size, void ***array);
-int		matmul(t_matrix a, t_matrix b, t_matrix *res);
 void	draw_line(t_data *data, t_point *p1, t_point *p2);
 void	put_pixel(t_data *data, int x, int y, int color);
 
+int		matrix_calloc(int w, int h, t_matrix **m);
+
+int		matmul(t_matrix *a, t_matrix *b, t_matrix *res);
 int		h2e(t_matrix *a);
 int		e2h(t_matrix *a);
 
 int		print_matrix(t_matrix a);
+int		tranform_camera(t_camera *c, t_matrix *p);
+int		create_block(t_matrix	**tmp);
+int		init_camera(t_camera *c, float fdistance);
+
 
 #endif
