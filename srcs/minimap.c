@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:33:15 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/25 17:58:31 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 19:51:21 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,47 @@ static int	draw_direction(t_config *config, t_data *img_data)
 	p2.x = (config->pos[0] + config->direction[0]) * config->block_size[0];
 	p2.y = (config->pos[1] + config->direction[1]) * config->block_size[1];
 	draw_line(img_data, &p1, &p2);
+	return (SUCCES);
+}
+
+int	draw_wall(t_config *c, t_data *img_d, int wall[3])
+{
+	t_point	s;
+	t_point	e;
+
+	if (wall[2] == START_N)
+	{
+		s.x = wall[0];
+		s.y = wall[1] + 1;
+		e.x = wall[0] + 1;
+		e.y = wall[1] + 1;
+	}
+	if (wall[2] == START_E)
+	{
+		s.x = wall[0] + 1;
+		s.y = wall[1];
+		e.x = wall[0] + 1;
+		e.y = wall[1] + 1;
+	}
+	if (wall[2] == START_S)
+	{
+		s.x = wall[0];
+		s.y = wall[1];
+		e.x = wall[0] + 1;
+		e.y = wall[1];
+	}
+	if (wall[2] == START_W)
+	{
+		s.x = wall[0];
+		s.y = wall[1];
+		e.x = wall[0];
+		e.y = wall[1] + 1;
+	}
+	s.x *= c->block_size[0];
+	s.y *= c->block_size[1];
+	e.x *= c->block_size[0];
+	e.y *= c->block_size[1];
+	draw_line(img_d, &s, &e);
 	return (SUCCES);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:33:37 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/25 18:29:51 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 19:51:41 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,43 @@ int	calc_dist(float *p1, float *p2)
 	return (pow(fabsf(p1[0] - p2[0]), 2) + pow(fabsf(p1[1] - p2[1]), 2));
 }
 
-static int	get_next_vertical(float *fv, float *d, float nv[2])
+static int	get_next_vertical(float *fv, float direc[2], float nv[2])
 {
+	float	d;
+
 	if (fv == NULL)
 		return (FAILED);
-	// d[0] = 1 / config->direction[1] * config->direction[0];
-	// d[1] = 1 / config->direction[0] * config->direction[1];
-	printf("d: %f %f \n", d[0], d[1]);
-	nv[0] = fv[0] - d[1];
-	if (d[0] < 0)
-		nv[0] = fv[0] + 1;
-	else
+	d = 1 / direc[0] * direc[1];
+	if (direc[0] < 0)
+	{
+		nv[1] = fv[1] - d;
 		nv[0] = fv[0] - 1;
+	}
+	else
+	{
+		nv[1] = fv[1] + d;
+		nv[0] = fv[0] + 1;
+	}
 	return (SUCCES);
 }
 
 static int	get_next_horizontal(float *fh, float direc[2], float nh[2])
 {
-	float d;
+	float	d;
 
 	if (fh == NULL)
 		return (FAILED);
 	d = 1 / direc[1] * direc[0];
-	nh[0] = fh[0] + d;
 	if (direc[1] < 0)
+	{
+		nh[0] = fh[0] - d;
 		nh[1] = fh[1] - 1;
+	}
 	else
+	{
+		nh[0] = fh[0] + d;
 		nh[1] = fh[1] + 1;
+	}
 	return (SUCCES);
 }
 
@@ -123,13 +133,49 @@ int	get_nxt_intersect(float *fv, float *fh, int prev, float direc[2])
 	return (1);
 }
 
+//axis 1 = horizontal, axis = 0 vertical
+t_bool	check_wall(float direc[2], float inter[2], int wall[3], int axis)
+{
+	if (axis == 1)
+	{
+		if (direc[1] > 0)
+		{
+			wall[0] = (int)inter[0];
+			wall[1] = (int)inter[1];
+			wall[2] = START_S;
+		}
+		else
+		{			
+			wall[0] = (int)inter[0];
+			wall[1] = (int)inter[1] - 1;
+			wall[2] = START_N;
+		}
+	}
+	else
+	{
+		if (direc[0] > 0)
+		{
+			wall[0] = (int)inter[0];
+			wall[1] = (int)inter[1];
+			wall[2] = START_W;
+		}
+		else
+		{			
+			wall[0] = (int)inter[0] - 1;
+			wall[1] = (int)inter[1];
+			wall[2] = START_E;
+		}
+	}
+	return (false);
+}
+
 int	cast(t_config *config, t_data *img_data, float ray[2])
 {
 	float	*fv;
 	float	*fh;
-	float	d[2];
 	int		i;
 	int		prev;
+	int		wall[3];
 
 	(void)ray;
 	fv = pcalloc(sizeof(float) * 2);
@@ -147,11 +193,12 @@ int	cast(t_config *config, t_data *img_data, float ray[2])
 	i = 0;
 	while (i < 1) 
 	{
-		prev = get_nxt_intersect(fv, fh, prev, d);
+		prev = get_nxt_intersect(fv, fh, prev, config->direction);
 		if (prev == 0)
-			draw_minimap_cross(config, img_data, fh);
+			check_wall(config->direction, fv, wall, prev);
 		if (prev == 1)
-			draw_minimap_cross(config, img_data, fh);
+			check_wall(config->direction, fh, wall, prev);
+		draw_wall(config, img_data, wall);
 		i++;
 	}
 	free(fv);

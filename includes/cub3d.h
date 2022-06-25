@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/25 17:58:59 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 19:51:30 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,5 @@ int		first_intersect_v(float pos[2], float direc[2], float intersect[2]);
 void	draw_cross(t_data *img_data, int pos[2], int size);
 int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
 int		cast(t_config *config, t_data *img_data, float ray[2]);
+int		draw_wall(t_config *c, t_data *img_d, int wall[3]);
 #endif
