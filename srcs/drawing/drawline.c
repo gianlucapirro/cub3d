@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 17:16:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/22 16:49:38 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 14:35:05 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,17 @@ void	draw_line(t_data *data, t_point *p1, t_point *p2)
 		put_line_steap(data, p1, p2);
 	else
 		put_line_gentle(data, p1, p2);
+}
+
+void	draw_cross(t_data *img_data, int pos[2], int size)
+{
+	int	i;
+
+	i = -size;
+	while (i < size)
+	{
+		put_pixel(img_data, pos[0] + i, pos[1], RED);
+		put_pixel(img_data, pos[0], pos[1] + i, RED);
+		i++;
+	}
 }

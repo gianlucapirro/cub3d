@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/20 13:57:39 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 17:59:08 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int	get_map_object_type(char c)
 
 /**
  * @brief loops till the end of linesread, for every char in the str
- * of each read line it will put the value in the map.
+ * of each read line it will put the value in the map. Does it in reverse
+ * because bottom left screen is not 0.0, in math it is
  * 
  * @param linesread 
  * @param map 
@@ -119,12 +120,12 @@ int	lst2maparray(t_list_m *linesread, int dimensions[2], int ***map)
 	y = 0;
 	while (y < dimensions[1])
 	{
-		(*map)[y] = pcalloc(sizeof(int) * dimensions[0]);
+		(*map)[dimensions[1] - 1 - y] = pcalloc(sizeof(int) * dimensions[0]);
 		list_m_get(linesread, (void **)&buffer, y);
 		x = 0;
 		while (buffer[x] && buffer[x] != '\n')
 		{
-			(*map)[y][x] = get_map_object_type(buffer[x]);
+			(*map)[dimensions[1] - 1 - y][x] = get_map_object_type(buffer[x]);
 			x++;
 		}
 		y++;
@@ -148,9 +149,5 @@ int	parse(char *fn, t_config *config)
 	calc_dimensions(linesread, config->dimensions);
 	lst2maparray(linesread, config->dimensions, &config->map);
 	list_m_free(linesread, 1);
-	config->player_size[0] = 10;
-	config->player_size[1] = 10;
-	config->block_size[0] = 30;
-	config->block_size[1] = 30;
 	return (0);
 }

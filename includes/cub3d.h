@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/23 17:36:01 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 17:58:59 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_config
 	int		dimensions[2];
 	int		player_size[2];
 	int		block_size[2];
+	float	direction[2];
 	float	pos[2];
 	void	*mlx;
 	void	*mlx_win;
@@ -79,7 +80,8 @@ typedef enum s_status
 	MLX_ERROR,
 	MALLOC_ERROR,
 	ARGUMENT_ERROR,
-	INVALID_MAP
+	INVALID_MAP,
+	NOT_FOUND
 }	t_status;
 
 typedef enum s_direction
@@ -128,7 +130,7 @@ typedef enum e_keys
 # define BLACK			0x00000000
 
 # define WINDOW_WIDTH 1300
-# define WINDOW_HEIGHT 1000
+# define WINDOW_HEIGHT 500
 # define PI 3.14159
 
 void	exit_error(char *msg, int exitcode);
@@ -151,16 +153,13 @@ int		alloc_2d_array(int w, int h, int size, void ***array);
 void	draw_line(t_data *data, t_point *p1, t_point *p2);
 void	put_pixel(t_data *data, int x, int y, int color);
 
-int		matrix_calloc(int w, int h, t_matrix **m);
+float	deg_to_rad(float deg);
+int		rotate(float vec[2], float deg);
 
-int		matmul(t_matrix *a, t_matrix *b, t_matrix *res);
-int		h2e(t_matrix *a);
-int		e2h(t_matrix *a);
+int		first_intersect_h(float pos[2], float direc[2], float intersect[2]);
+int		first_intersect_v(float pos[2], float direc[2], float intersect[2]);
 
-int		print_matrix(t_matrix a);
-int		tranform_camera(t_camera *c, t_matrix *p);
-int		create_block(t_matrix	**tmp);
-int		init_camera(t_camera *c, float fdistance);
-
-
+void	draw_cross(t_data *img_data, int pos[2], int size);
+int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
+int		cast(t_config *config, t_data *img_data, float ray[2]);
 #endif

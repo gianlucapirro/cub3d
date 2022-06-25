@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/23 17:27:19 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/06/25 14:14:13 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME 		= 	CUB3D
 
 ################################## VPATH
 
-VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events ./srcs/camera ./srcs/drawing ./srcs/debug
+VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events ./srcs/drawing ./srcs/debug ./srcs/math ./srcs/raycaster
 
 ################################## LIBRARIES
 
@@ -53,14 +53,13 @@ ERROR		=	error.c\
 				errorutils.c\
 				get_fn.c
 
-CAMERA		=	mathmat.c \
-				utils.c\
-				camera.c
-
 DRAWING		=	quad.c\
 				drawline.c
 
-DEBUG		=	matrix.c
+MATH		=	rotate.c\
+				math_utils.c
+
+RAYCASTER	=	raycaster.c
 
 ################################## FLAGS
 
@@ -73,13 +72,14 @@ endif
 
 ################################## SRCS
 
-SRCS		=	$(LIST) $(GNL) \
+SRCS		=	$(LIST) \
+				$(GNL) \
 				$(PARSING) \
 				$(ERROR) \
 				$(EVENTS) \
-				$(CAMERA) \
 				$(DRAWING) \
-				$(DEBUG) \
+				$(MATH) \
+				$(RAYCASTER) \
 				render.c \
 				minimap.c \
 				main.c
@@ -117,7 +117,7 @@ clean:
 	cd $(LIBMLXDIR) && make clean
 	rm -rf $(OBJS) $(LIBFT) $(LIBMLX)
 
-fclean:		clean
+fclean:	clean
 	cd $(LIBFTDIR) && make fclean
 	cd $(LIBMLXDIR) && make clean
 	rm -f $(NAME) a.out

@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/22 17:12:20 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/25 17:57:22 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	put_pixel(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
+	y = WINDOW_HEIGHT - 1 - y;
 	if (x > WINDOW_WIDTH - 1 || x < 0 || y > WINDOW_HEIGHT - 1 || y < 0)
 		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
@@ -34,12 +35,18 @@ int	render_next_frame(void *tmp)
 {
 	t_data		img_data;
 	t_config	*config;
+	float		pos[2];
 
 	config = (t_config *)(tmp);
 	img_data.img = mlx_new_image(config->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
 	&img_data.line_length, &img_data.endian);
 	draw_minimap(config, &img_data);
+	cast(config, &img_data, pos);
+	// first_intersect_h(config->pos, config->direction, pos);
+	// draw_minimap_cross(config, &img_data, pos);
+	// first_intersect_v(config->pos, config->direction, pos);
+	// draw_minimap_cross(config, &img_data, pos);
 	mlx_put_image_to_window(config->mlx, config->mlx_win, img_data.img, 0, 0);
 	free(img_data.img);
 	free(img_data.addr);
