@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:33:15 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/25 19:51:21 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/27 13:14:37 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,28 @@ int	draw_wall(t_config *c, t_data *img_d, int wall[3])
 	t_point	s;
 	t_point	e;
 
-	if (wall[2] == START_N)
+	if (wall[2] == NORTH)
 	{
 		s.x = wall[0];
 		s.y = wall[1] + 1;
 		e.x = wall[0] + 1;
 		e.y = wall[1] + 1;
 	}
-	if (wall[2] == START_E)
+	if (wall[2] == EAST)
 	{
 		s.x = wall[0] + 1;
 		s.y = wall[1];
 		e.x = wall[0] + 1;
 		e.y = wall[1] + 1;
 	}
-	if (wall[2] == START_S)
+	if (wall[2] == SOUTH)
 	{
 		s.x = wall[0];
 		s.y = wall[1];
 		e.x = wall[0] + 1;
 		e.y = wall[1];
 	}
-	if (wall[2] == START_W)
+	if (wall[2] == WEST)
 	{
 		s.x = wall[0];
 		s.y = wall[1];

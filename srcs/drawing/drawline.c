@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 17:16:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/25 14:35:05 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/27 13:10:34 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	put_line_steap(t_data *data, t_point *p1, t_point *p2)
 	{
 		y1 += slope;
 		x1++;
-		put_pixel(data, x1, (int)y1, 0xFFFFFF);
+		put_pixel(data, x1, (int)y1, RED);
 	}
 }
 
@@ -90,7 +90,7 @@ static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2)
 	{
 		x1 += slope;
 		y1++;
-		put_pixel(data, (int)x1, y1, 0xFFFFFF);
+		put_pixel(data, (int)x1, y1, RED);
 	}
 }
 

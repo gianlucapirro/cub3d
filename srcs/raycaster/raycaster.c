@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:33:37 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/25 19:51:41 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/27 13:08:15 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,99 +109,99 @@ static int	get_next_horizontal(float *fh, float direc[2], float nh[2])
  * @param d 
  * @return int 
  */
-int	get_nxt_intersect(float *fv, float *fh, int prev, float direc[2])
+int	get_nxt_intersect(float *inter[2], int prev, float direc[2])
 {
 	float	nv[2];
 	float	nh[2];
 	float	*p_inter;
 
-	get_next_horizontal(fh, direc, nh);
-	get_next_vertical(fv, direc, nv);
-	prev = 1;
-	if (prev == 0)
-		p_inter = fv;
-	else
-		p_inter = fh;
-	if (fv && (fh == NULL || calc_dist(p_inter, nv) < calc_dist(p_inter, nh)))
+	get_next_horizontal(inter[1], direc, nh);
+	get_next_vertical(inter[0], direc, nv);
+	p_inter = inter[prev];
+	if (inter[0] && (inter[1] == NULL || calc_dist(p_inter, nv) < calc_dist(p_inter, nh)))
 	{
-		fv[0] = nv[0];
-		fv[1] = nv[1];
+		inter[0][0] = nv[0];
+		inter[0][1] = nv[1];
 		return (0);
 	}
-	fh[0] = nh[0];
-	fh[1] = nh[1];
+	inter[1][0] = nh[0];
+	inter[1][1] = nh[1];
 	return (1);
 }
 
-//axis 1 = horizontal, axis = 0 vertical
-t_bool	check_wall(float direc[2], float inter[2], int wall[3], int axis)
+int get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 {
-	if (axis == 1)
-	{
-		if (direc[1] > 0)
-		{
-			wall[0] = (int)inter[0];
-			wall[1] = (int)inter[1];
-			wall[2] = START_S;
-		}
-		else
-		{			
-			wall[0] = (int)inter[0];
-			wall[1] = (int)inter[1] - 1;
-			wall[2] = START_N;
-		}
-	}
+	float	ray_pos_on_wall;
+
+	if (config->map[wall[1]][wall[0]] != WALL)
+		return (FAILED);
+	if (wall[2] == NORTH || wall[2] == SOUTH)
+		ray_pos_on_wall = inter[0] - floor(inter[0]);
 	else
-	{
-		if (direc[0] > 0)
-		{
-			wall[0] = (int)inter[0];
-			wall[1] = (int)inter[1];
-			wall[2] = START_W;
-		}
-		else
-		{			
-			wall[0] = (int)inter[0] - 1;
-			wall[1] = (int)inter[1];
-			wall[2] = START_E;
-		}
-	}
-	return (false);
+		ray_pos_on_wall = inter[1] - floor(inter[1]);
+	if (wall[2] == NORTH || wall[2] == EAST)
+		ray_pos_on_wall = 1 - ray_pos_on_wall;
+	ray->x = wall[0];
+	ray->y = wall[1];
+	ray->direction = wall[2];
+	ray->pos_on_wall = ray_pos_on_wall; 
+	return (SUCCES);
 }
 
-int	cast(t_config *config, t_data *img_data, float ray[2])
+//axis 1 = horizontal, axis = 0 vertical
+t_bool	intersect_to_wall(float direc[2], float inter[2], int wall[3], int axis)
 {
-	float	*fv;
-	float	*fh;
-	int		i;
+	if (axis == 1 && direc[1] > 0)
+	{
+		wall[0] = (int)inter[0];
+		wall[1] = (int)inter[1];
+		wall[2] = SOUTH;
+	}
+	else if (axis == 1 && direc[1] < 0)
+	{
+		wall[0] = (int)inter[0];
+		wall[1] = (int)inter[1] - 1;
+		wall[2] = NORTH;
+	}
+	else if (axis == 0 && direc[0] > 0)
+	{
+		wall[0] = (int)inter[0];
+		wall[1] = (int)inter[1];
+		wall[2] = WEST;
+	}
+	else if (axis == 0 && direc[0] < 0)
+	{			
+		wall[0] = (int)inter[0] - 1;
+		wall[1] = (int)inter[1];
+		wall[2] = EAST;
+	}
+	return (TRUE);
+}
+
+int	cast(t_config *config, t_ray *ray)
+{
+	float	*inter[2]; //TODO: this is intersect v and h make this a struct
 	int		prev;
 	int		wall[3];
 
-	(void)ray;
-	fv = pcalloc(sizeof(float) * 2);
-	fh = pcalloc(sizeof(float) * 2);
-	if (first_intersect_v(config->pos, config->direction, fv) == NOT_FOUND)
-		fv = NULL;
-	if (first_intersect_h(config->pos, config->direction, fh) == NOT_FOUND)
-		fh = NULL;
-	printf("direction: %f %f\n", config->direction[0], config->direction[1]);
-	prev = 0;
-	if (!fh || (fv && calc_dist(fv, config->pos) < calc_dist(fh, config->pos)))
+	inter[0] = pcalloc(sizeof(float) * 2);
+	inter[1] = pcalloc(sizeof(float) * 2);
+	if (first_intersect_v(config->pos, config->direction, inter[0]) == NOT_FOUND)
+		inter[0] = NULL;
+	if (first_intersect_h(config->pos, config->direction, inter[1]) == NOT_FOUND)
+		inter[1] = NULL;
+	prev = 1;
+	if (!inter[1] || (inter[0] && calc_dist(inter[0], config->pos) < \
+	calc_dist(inter[1], config->pos)))
 		prev = 0;
-	else
-		prev = 1;
-	i = 0;
-	while (i < 1) 
+	while (1) 
 	{
-		prev = get_nxt_intersect(fv, fh, prev, config->direction);
-		if (prev == 0)
-			check_wall(config->direction, fv, wall, prev);
-		if (prev == 1)
-			check_wall(config->direction, fh, wall, prev);
-		draw_wall(config, img_data, wall);
-		i++;
+		intersect_to_wall(config->direction, inter[prev], wall, prev);
+		printf("Wall: %d %d %d\n", wall[0], wall[1], wall[2]);
+		if (get_wall(config, inter[prev], wall, ray) == SUCCES)
+			break ;
+		prev = get_nxt_intersect(inter, prev, config->direction);
 	}
-	free(fv);
-	free(fh);
-	return (0);
-}
+	free(inter[0]);
+	free(inter[1]);
+	return (SUCCES); }

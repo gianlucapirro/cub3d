@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/25 19:51:30 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/27 13:09:29 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ typedef struct s_camera
 	t_matrix	*external;
 }	t_camera;
 
+typedef struct s_ray
+{
+	int		direction;
+	float	pos_on_wall;
+	int		x;
+	int		y;
+}		t_ray;
+
 typedef enum s_bool
 {
 	FALSE,
@@ -86,7 +94,7 @@ typedef enum s_status
 
 typedef enum s_direction
 {
-	NORH,
+	NORTH,
 	WEST,
 	SOUTH,
 	EAST
@@ -123,9 +131,19 @@ typedef enum e_keys
 	D		= 2
 }	t_keys;
 
+typedef enum e_textures
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C
+}	t_textures;
+
 # define GREY			0x00808080
 # define RED			0x00FF0000
-# define WHITE			0x00FFFFFF
+# define WHITE			0x00FFFF00
 # define PINK			0x00FF1493
 # define BLACK			0x00000000
 
@@ -133,34 +151,68 @@ typedef enum e_keys
 # define WINDOW_HEIGHT 500
 # define PI 3.14159
 
+//libft+
+
 void	exit_error(char *msg, int exitcode);
 void	*pcalloc(size_t	size);
+float	deg_to_rad(float deg);
+
+//utils
 
 int		is_valid_c(char c);
-void	print_maparray(int dimensions[2], int **map);
+int		is_start_pos(char c);
+int		encode_rgb(u_int8_t r, u_int8_t g, u_int8_t b);
+
+//parsing
+
+int		get_start_pos(t_config *config);
 int		parse(char *fn, t_config *config);
 void	get_fn(char **fn, char *argv[]);
+void	print_maparray(int dimensions[2], int **map);
+
+//error
+
 void	error_handling(int argc, t_config *config);
+
+//minilibx+
+
+void	put_pixel(t_data *data, int x, int y, int color);
 int		render_next_frame(void *tmp);
+
+//drawing
+
 int		draw_minimap(t_config *config, t_data *img_data);
+int		draw_wall(t_config *c, t_data *img_d, int wall[3]);
+int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
 int		draw_rectangle(int pos[2], int dimensions[2], \
 		t_data *img_data, int color);
-int		encode_rgb(u_int8_t r, u_int8_t g, u_int8_t b);
-int		get_start_pos(t_config *config);
-int		key_press(int keycode, t_config	*config);
-int		is_start_pos(char c);
-int		alloc_2d_array(int w, int h, int size, void ***array);
 void	draw_line(t_data *data, t_point *p1, t_point *p2);
-void	put_pixel(t_data *data, int x, int y, int color);
-
-float	deg_to_rad(float deg);
-int		rotate(float vec[2], float deg);
-
-int		first_intersect_h(float pos[2], float direc[2], float intersect[2]);
-int		first_intersect_v(float pos[2], float direc[2], float intersect[2]);
-
 void	draw_cross(t_data *img_data, int pos[2], int size);
-int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
-int		cast(t_config *config, t_data *img_data, float ray[2]);
-int		draw_wall(t_config *c, t_data *img_d, int wall[3]);
+
+//events
+
+int		key_press(int keycode, t_config	*config);
+
+/******************************************************************************/
+/* Checks if the wall exist, if so set the correct position of the ray on     */
+/* the wall. It flips coordinates of NORTH and WEST to make sure the          */
+/* texture is rendered correctly (position must be left to right)             */
+/*                                                                            */
+/* @param t_config* config:                                         	      */
+/*      Configuration struct                                                  */
+/* @param float inter[2]:                                                     */
+/*      Point of intersection                                                 */
+/* @param int wall[3]:                                                        */
+/*      Coordinates of wall and the directions it faces                       */
+/* @param int ray[4]:                                                         */
+/*      Result is put into this variable, the x, y, direction, ray position on*/
+/*      wall                                                                  */
+/* @return (t_bool):                                                          */
+/*      SUCCES if wall was found FAILED if not                                */
+/******************************************************************************/
+int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
+
+int		rotate(float vec[2], float deg);
+int		cast(t_config *config, t_ray *ray);
+
 #endif

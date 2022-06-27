@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/25 19:47:11 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/27 13:13:41 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,20 @@ int	render_next_frame(void *tmp)
 {
 	t_data		img_data;
 	t_config	*config;
-	float		pos[2];
+	t_ray		ray;
+	int			wall[3];
 
 	config = (t_config *)(tmp);
 	img_data.img = mlx_new_image(config->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
 	&img_data.line_length, &img_data.endian);
 	draw_minimap(config, &img_data);
-	cast(config, &img_data, pos);
+	cast(config, &ray);
+	wall[0] = ray.x;
+	wall[1] = ray.y;
+	wall[2] = ray.direction;
+	printf("%d %d %d\n", ray.x, ray.y, ray.direction);
+	draw_wall(config, &img_data, wall);
 	// first_intersect_h(config->pos, config->direction, pos);
 	// draw_minimap_cross(config, &img_data, pos);
 	// first_intersect_v(config->pos, config->direction, pos);
