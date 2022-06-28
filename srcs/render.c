@@ -47,6 +47,7 @@ int	render_next_frame(void *tmp)
 	wall[0] = ray.x;
 	wall[1] = ray.y;
 	wall[2] = ray.direction;
+	printf()
 	printf("%d %d %d\n", ray.x, ray.y, ray.direction);
 	draw_wall(config, &img_data, wall);
 	// first_intersect_h(config->pos, config->direction, pos);
