@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   keypress.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 16:13:45 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/25 18:01:36 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   keypress.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/11/26 16:13:45 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/06/28 17:44:57 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ of the keycodes in the if statements an action will take place.
 */
 int	key_press(int key, t_config	*config)
 {
-	if (key == W && is_valid_pos(config, config->pos[0], config->pos[1] + 0.05))
-		config->pos[1] += 0.05;
-	if (key == A && is_valid_pos(config, config->pos[0] - 0.05, config->pos[1]))
-		config->pos[0] -= 0.05;
-	if (key == S && is_valid_pos(config, config->pos[0], config->pos[1] - 0.05))
-		config->pos[1] -= 0.05;
-	if (key == D && is_valid_pos(config, config->pos[0] + 0.05, config->pos[1]))
-		config->pos[0] += 0.05;
+	if (key == W && is_valid_pos(config, config->pos[0], config->pos[1] + PACE))
+		config->pos[1] += PACE;
+	if (key == A && is_valid_pos(config, config->pos[0] - PACE, config->pos[1]))
+		config->pos[0] -= PACE;
+	if (key == S && is_valid_pos(config, config->pos[0], config->pos[1] - PACE))
+		config->pos[1] -= PACE;
+	if (key == D && is_valid_pos(config, config->pos[0] + PACE, config->pos[1]))
+		config->pos[0] += PACE;
 	if (key == ARROW_L)
 		rotate_player(config, 5);
 	if (key == ARROW_R)

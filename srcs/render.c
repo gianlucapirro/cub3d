@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/27 13:13:41 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   render.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/11/17 13:35:24 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/06/28 19:21:51 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ int	render_next_frame(void *tmp)
 	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
 	&img_data.line_length, &img_data.endian);
 	draw_minimap(config, &img_data);
-	cast(config, &ray);
-	wall[0] = ray.x;
-	wall[1] = ray.y;
-	wall[2] = ray.direction;
-	printf()
-	printf("%d %d %d\n", ray.x, ray.y, ray.direction);
+	if (cast(config, &ray, &img_data) != FAILED) {
+		wall[0] = ray.x;
+		wall[1] = ray.y;
+		wall[2] = ray.direction;
+	// printf()
+	}
+	// printf("%d %d %d\n", ray.x, ray.y, ray.direction);
 	draw_wall(config, &img_data, wall);
 	// first_intersect_h(config->pos, config->direction, pos);
 	// draw_minimap_cross(config, &img_data, pos);

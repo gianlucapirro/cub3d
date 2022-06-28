@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/27 13:09:29 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
+/*   Updated: 2022/06/28 17:53:47 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,12 @@ typedef enum e_textures
 # define BLACK			0x00000000
 
 # define WINDOW_WIDTH 1300
-# define WINDOW_HEIGHT 500
+# define WINDOW_HEIGHT 900
 # define PI 3.14159
+
+# define PACE	0.25
+# define ROTATION_SPEED	10
+
 
 //libft+
 
@@ -213,6 +217,6 @@ int		key_press(int keycode, t_config	*config);
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 
 int		rotate(float vec[2], float deg);
-int		cast(t_config *config, t_ray *ray);
+int		cast(t_config *config, t_ray *ray, t_data *img_data);
 
 #endif
