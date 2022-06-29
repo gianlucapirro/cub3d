@@ -59,6 +59,7 @@ of the keycodes in the if statements an action will take place.
 */
 int	key_press(int key, t_config	*config)
 {
+	printf("%i\n", key);
 	if (key == W && is_valid_pos(config, config->pos[0], config->pos[1] + PACE))
 		config->pos[1] += PACE;
 	if (key == A && is_valid_pos(config, config->pos[0] - PACE, config->pos[1]))

@@ -26,6 +26,35 @@ void	put_pixel(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+int	cast_all_lines(t_config *config, t_data *img_data)
+{
+	float 	step_size;
+	t_ray	ray;
+	int		wall[3];
+	float	direction[2];
+	float	pos[2];
+
+	step_size = FOV / WINDOW_WIDTH;
+	for (int i = 0; i < WINDOW_WIDTH; i++)
+	{
+		direction[0] = config->direction[0];
+		direction[1] = config->direction[1];
+
+		rotate(direction, (i * step_size) + (FOV / -2));
+
+		if (cast(config, &ray, direction) != FAILED) {
+			wall[0] = ray.x;
+			wall[1] = ray.y;
+			wall[2] = ray.direction;
+			pos[0] = ray.real_x;
+			pos[1] = ray.real_y;
+			draw_wall(config, img_data, wall, RED);
+			draw_minimap_line(config, img_data, pos, config->pos);
+		}
+	}
+	return (0);
+}
+
 /*
  This function renders every frame. 
  This function is called in a loop (mlx_hook_loop) 
@@ -35,29 +64,16 @@ int	render_next_frame(void *tmp)
 {
 	t_data		img_data;
 	t_config	*config;
-	t_ray		ray;
-	int			wall[3];
 
 	config = (t_config *)(tmp);
 	img_data.img = mlx_new_image(config->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
 	&img_data.line_length, &img_data.endian);
 	draw_minimap(config, &img_data);
-	if (cast(config, &ray, &img_data) != FAILED) {
-		wall[0] = ray.x;
-		wall[1] = ray.y;
-		wall[2] = ray.direction;
-	// printf()
-	}
-	// printf("%d %d %d\n", ray.x, ray.y, ray.direction);
-	draw_wall(config, &img_data, wall);
-	// first_intersect_h(config->pos, config->direction, pos);
-	// draw_minimap_cross(config, &img_data, pos);
-	// first_intersect_v(config->pos, config->direction, pos);
-	// draw_minimap_cross(config, &img_data, pos);
+	cast_all_lines(config, &img_data);
 	mlx_put_image_to_window(config->mlx, config->mlx_win, img_data.img, 0, 0);
 	free(img_data.img);
-	free(img_data.addr);
+	// free(img_data.addr);
 	return (SUCCES);
 }
 

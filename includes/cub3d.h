@@ -70,6 +70,8 @@ typedef struct s_ray
 	float	pos_on_wall;
 	int		x;
 	int		y;
+	float	real_x;
+	float	real_y;
 }		t_ray;
 
 typedef enum s_bool
@@ -112,23 +114,43 @@ typedef enum s_objects
 	OTHER
 }	t_objects;
 
+// typedef enum e_keys
+// {
+// 	ARROW_R	= 124,
+// 	ARROW_L	= 123,
+// 	ARROW_U	= 125,
+// 	ARROW_D	= 126,
+// 	PAGE_U	= 116,
+// 	PAGE_D	= 121,
+// 	PLUS	= 24,
+// 	ESC		= 53,
+// 	MIN		= 27,
+// 	Q		= 12,
+// 	W		= 13,
+// 	E		= 14,
+// 	A		= 0,
+// 	S		= 1,
+// 	D		= 2
+// }	t_keys;
+
+
 typedef enum e_keys
 {
-	ARROW_R	= 124,
-	ARROW_L	= 123,
-	ARROW_U	= 125,
-	ARROW_D	= 126,
+	ARROW_R	= 65363,
+	ARROW_L	= 65361,
+	ARROW_U	= 65361,
+	ARROW_D	= 65363,
 	PAGE_U	= 116,
 	PAGE_D	= 121,
 	PLUS	= 24,
 	ESC		= 53,
 	MIN		= 27,
 	Q		= 12,
-	W		= 13,
+	W		= 119,
 	E		= 14,
-	A		= 0,
-	S		= 1,
-	D		= 2
+	A		= 97,
+	S		= 115,
+	D		= 100, 
 }	t_keys;
 
 typedef enum e_textures
@@ -150,11 +172,12 @@ typedef enum e_textures
 # define WINDOW_WIDTH 1300
 # define WINDOW_HEIGHT 900
 # define PI 3.14159
+# define FOV 90.0
 
 # define PACE	0.25
 # define ROTATION_SPEED	10
 
-
+# define INFINITY_INT 1000000
 //libft+
 
 void	exit_error(char *msg, int exitcode);
@@ -186,11 +209,11 @@ int		render_next_frame(void *tmp);
 //drawing
 
 int		draw_minimap(t_config *config, t_data *img_data);
-int		draw_wall(t_config *c, t_data *img_d, int wall[3]);
+int		draw_wall(t_config *c, t_data *img_d, int wall[3], int color);
 int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
 int		draw_rectangle(int pos[2], int dimensions[2], \
 		t_data *img_data, int color);
-void	draw_line(t_data *data, t_point *p1, t_point *p2);
+void	draw_line(t_data *data, t_point *p1, t_point *p2, int color);
 void	draw_cross(t_data *img_data, int pos[2], int size);
 
 //events
@@ -217,6 +240,7 @@ int		key_press(int keycode, t_config	*config);
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 
 int		rotate(float vec[2], float deg);
-int		cast(t_config *config, t_ray *ray, t_data *img_data);
+int		cast(t_config *config, t_ray *ray, float direction[2]);
+int	draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2]);
 
 #endif

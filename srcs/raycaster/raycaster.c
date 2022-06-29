@@ -12,7 +12,13 @@
 
 #include <cub3d.h>
 
-int	first_intersect_h(float pos[2], float direc[2], float intersect[2])
+float	calc_dist(float *p1, float *p2)
+{
+	return ((float)sqrt(pow((double)fabsf(p1[0] - p2[0]), (double)2) +\
+			pow((double)fabsf(p1[1] - p2[1]), (double)2)));
+}
+
+int	first_intersect_h(float pos[2], float direc[2], float intersect[3])
 {
 	float	x;
 	float	y;
@@ -20,7 +26,10 @@ int	first_intersect_h(float pos[2], float direc[2], float intersect[2])
 	float	dy;
 
 	if (direc[1] == 0)
+	{
+		intersect[2] = INFINITY_INT;
 		return (NOT_FOUND);
+	}
 	else if (direc[1] < 0)
 		y = floor(pos[1]);
 	else
@@ -30,10 +39,11 @@ int	first_intersect_h(float pos[2], float direc[2], float intersect[2])
 	x = pos[0] - dx;
 	intersect[0] = x;
 	intersect[1] = y;
+	intersect[2] = calc_dist(intersect, pos);
 	return (SUCCES);
 }
 
-int	first_intersect_v(float pos[2], float direc[2], float intersect[2])
+int	first_intersect_v(float pos[2], float direc[2], float intersect[3])
 {
 	float	x;
 	float	y;
@@ -41,7 +51,10 @@ int	first_intersect_v(float pos[2], float direc[2], float intersect[2])
 	float	dy;
 
 	if (direc[0] == 0)
+	{
+		intersect[2] = INFINITY_INT;
 		return (NOT_FOUND);
+	}
 	else if (direc[0] < 0)
 		x = floor(pos[0]);
 	else
@@ -51,57 +64,35 @@ int	first_intersect_v(float pos[2], float direc[2], float intersect[2])
 	y = pos[1] - dy;
 	intersect[0] = x;
 	intersect[1] = y;
+	intersect[2] = calc_dist(intersect, pos);
 	return (SUCCES);
 }
 
-float	calc_dist(float *p1, float *p2)
-{
-	return (pow(fabsf(p1[0] - p2[0]), 2) + pow(fabsf(p1[1] - p2[1]), 2));
-}
-
-static int	get_next_vertical(float *fv, float direc[2])
+static int	get_next_intersect(float vec[3], float direc[2], float pos[2], int v_or_h)
 {
 	float	d;
-	float	nv[2];
+	float	new_vec[2];
+	int		a;
+	int		b;
 
-	if (fv == NULL)
+	a = v_or_h;
+	b = 1 - v_or_h;
+	if (vec[2] == INFINITY_INT)
 		return (FAILED);
-	d = 1 / direc[0] * direc[1];
-	if (direc[0] < 0)
+	d = 1 / direc[a] * direc[b];
+	if (direc[a] < 0)
 	{
-		nv[1] = fv[1] - d;
-		nv[0] = fv[0] - 1;
+		new_vec[b] = vec[b] - d;
+		new_vec[a] = vec[a] - 1;
 	}
 	else
 	{
-		nv[1] = fv[1] + d;
-		nv[0] = fv[0] + 1;
+		new_vec[b] = vec[b] + d;
+		new_vec[a] = vec[a] + 1;
 	}
-	fv[0] = nv[0];
-	fv[1] = nv[1];
-	return (SUCCES);
-}
-
-static int	get_next_horizontal(float *fh, float direc[2])
-{
-	float	d;
-	float	nh[2];
-
-	if (fh == NULL)
-		return (FAILED);
-	d = 1 / direc[1] * direc[0];
-	if (direc[1] < 0)
-	{
-		nh[0] = fh[0] - d;
-		nh[1] = fh[1] - 1;
-	}
-	else
-	{
-		nh[0] = fh[0] + d;
-		nh[1] = fh[1] + 1;
-	}
-	fh[0] = nh[0];
-	fh[1] = nh[1];
+	vec[a] = new_vec[a];
+	vec[b] = new_vec[b];
+	vec[2] = calc_dist(vec, pos);
 	return (SUCCES);
 }
 
@@ -111,7 +102,6 @@ int get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 
 	if (wall[0] < 0 || wall[1] < 0 || wall[0] >= config->dimensions[0] || wall[1] >= config->dimensions[1])
 		return (3);
-
 	if (config->map[wall[1]][wall[0]] != WALL)
 		return (FAILED);
 	if (wall[2] == NORTH || wall[2] == SOUTH)
@@ -124,6 +114,8 @@ int get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 	ray->y = wall[1];
 	ray->direction = wall[2];
 	ray->pos_on_wall = ray_pos_on_wall; 
+	ray->real_x = inter[0];
+	ray->real_y = inter[1];
 	return (SUCCES);
 }
 
@@ -168,33 +160,23 @@ int	get_closest_intersection(t_config *config, float *inter[2])
 	return (1);
 }
 
-int	cast(t_config *config, t_ray *ray, t_data *img_data)
+int	cast(t_config *config, t_ray *ray, float direction[2])
 {
-	float	*inter[2];
-	int		prev;
+	float	inter[2][3];
+	int		v_or_h;
 	int		wall[3];
 
-	inter[0] = pcalloc(sizeof(float) * 2);
-	inter[1] = pcalloc(sizeof(float) * 2);
-	if (first_intersect_v(config->pos, config->direction, inter[0]) == NOT_FOUND)
-		inter[0] = NULL;
-	if (first_intersect_h(config->pos, config->direction, inter[1]) == NOT_FOUND)
-		inter[1] = NULL;
+	first_intersect_v(config->pos, direction, inter[0]);
+	first_intersect_h(config->pos, direction, inter[1]);
 	while (1) 
 	{
-		prev = get_closest_intersection(config, inter);
-		draw_minimap_cross(config, img_data, inter[prev]);
-		intersect_to_wall(config->direction, inter[prev], wall, prev);
-		if (get_wall(config, inter[prev], wall, ray) == SUCCES || get_wall(config, inter[prev], wall, ray) == 3)
+		v_or_h = inter[0][2] > inter[1][2];
+		intersect_to_wall(direction, inter[v_or_h], wall, v_or_h);
+		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || get_wall(config, inter[v_or_h], wall, ray) == 3)
 			break ;
-		if (prev == 0)
-			get_next_vertical(inter[0], config->direction);
-		else
-			get_next_horizontal(inter[1], config->direction);
+		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
 	}
 	if (ray == NULL)
 		return (FAILED);
-	free(inter[0]);
-	free(inter[1]);
 	return (SUCCES);
 }

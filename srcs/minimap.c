@@ -33,11 +33,24 @@ static int	draw_direction(t_config *config, t_data *img_data)
 	p1.y = config->pos[1] * config->block_size[1];
 	p2.x = (config->pos[0] + config->direction[0]) * config->block_size[0];
 	p2.y = (config->pos[1] + config->direction[1]) * config->block_size[1];
-	draw_line(img_data, &p1, &p2);
+	draw_line(img_data, &p1, &p2, WHITE);
 	return (SUCCES);
 }
 
-int	draw_wall(t_config *c, t_data *img_d, int wall[3])
+int	draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2])
+{
+	t_point	p1;
+	t_point	p2;
+
+	p1.x = start[0] * config->block_size[0];
+	p1.y = start[1] * config->block_size[1];
+	p2.x = end[0] * config->block_size[0];
+	p2.y = end[1] * config->block_size[1];
+	draw_line(img_data, &p1, &p2, WHITE);
+	return (SUCCES);
+}
+
+int	draw_wall(t_config *c, t_data *img_d, int wall[3], int color)
 {
 	t_point	s;
 	t_point	e;
@@ -74,7 +87,7 @@ int	draw_wall(t_config *c, t_data *img_d, int wall[3])
 	s.y *= c->block_size[1];
 	e.x *= c->block_size[0];
 	e.y *= c->block_size[1];
-	draw_line(img_d, &s, &e);
+	draw_line(img_d, &s, &e, color);
 	return (SUCCES);
 }
 

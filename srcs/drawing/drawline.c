@@ -46,7 +46,7 @@ static void	swap_smallest(int *a1, double *b1, int *a2, double *b2)
  This function is used when the slope is smaller than 1 to
  draw a steap line
  */
-static void	put_line_steap(t_data *data, t_point *p1, t_point *p2)
+static void	put_line_steap(t_data *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 	int		x1;
@@ -64,7 +64,7 @@ static void	put_line_steap(t_data *data, t_point *p1, t_point *p2)
 	{
 		y1 += slope;
 		x1++;
-		put_pixel(data, x1, (int)y1, RED);
+		put_pixel(data, x1, (int)y1, color);
 	}
 }
 
@@ -72,7 +72,7 @@ static void	put_line_steap(t_data *data, t_point *p1, t_point *p2)
  This function is used when the slope is bigger than 1
  to draw a gentle line
  */
-static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2)
+static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 	double	x1;
@@ -90,7 +90,7 @@ static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2)
 	{
 		x1 += slope;
 		y1++;
-		put_pixel(data, (int)x1, y1, RED);
+		put_pixel(data, (int)x1, y1, color);
 	}
 }
 
@@ -99,7 +99,7 @@ static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2)
  bigger than 1 it will use the function put_line_gentle else it will use
  put_line_steap to draw the line
  */
-void	draw_line(t_data *data, t_point *p1, t_point *p2)
+void	draw_line(t_data *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 
@@ -110,9 +110,9 @@ void	draw_line(t_data *data, t_point *p1, t_point *p2)
 	else
 		slope = dabs((p1->y - p2->y) / (p1->x - p2->x));
 	if (slope < 1)
-		put_line_steap(data, p1, p2);
+		put_line_steap(data, p1, p2, color);
 	else
-		put_line_gentle(data, p1, p2);
+		put_line_gentle(data, p1, p2, color);
 }
 
 void	draw_cross(t_data *img_data, int pos[2], int size)
