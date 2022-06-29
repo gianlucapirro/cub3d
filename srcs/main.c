@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/05/04 09:32:30 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/06/28 17:47:58 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/04 09:32:30 by hthomas           #+#    #+#             */
+/*   Updated: 2022/06/29 18:32:27 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	setup_config(t_config *config, int argc, char *argv[])
 	get_start_pos(config);
 	config->player_size[0] = 10;
 	config->player_size[1] = 10;
-	config->block_size[0] = 60;
-	config->block_size[1] = 60;
+	config->block_size[0] = 30;
+	config->block_size[1] = 30;
 	config->direction[0] += 0.05;
 	config->mlx = mlx_init();
 	if (!config->mlx)

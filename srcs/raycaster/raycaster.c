@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/24 19:33:37 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/06/28 19:37:53 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/24 19:33:37 by gianlucapir       #+#    #+#             */
+/*   Updated: 2022/06/29 19:26:05 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,26 @@ int	get_closest_intersection(t_config *config, float *inter[2])
 	return (1);
 }
 
+float	fix_fish_eye(float pos[2], float inter[2], float direc[2])
+{
+	float	a[2];
+	float	b[2];
+	float	c[2];
+	float	d;
+
+	a[0] = inter[0] - pos[0];
+	a[1] = inter[1] - pos[1];
+	b[0] = direc[0];
+	b[1] = direc[1];
+	c[0] = a[0] * b[0];
+	c[1] = a[1] * b[1];
+	d = (b[0] * b[0]) + (b[1] * b[1]);
+	c[0] = c[0] / d;
+	c[1] = c[1] / d;
+	return ((c[0] * c[0]) + (c[1] * c[1]));
+}
+
+//inter has intersec x and y in each array is x, y, distance
 int	cast(t_config *config, t_ray *ray, float direction[2])
 {
 	float	inter[2][3];
@@ -172,8 +192,13 @@ int	cast(t_config *config, t_ray *ray, float direction[2])
 	{
 		v_or_h = inter[0][2] > inter[1][2];
 		intersect_to_wall(direction, inter[v_or_h], wall, v_or_h);
-		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || get_wall(config, inter[v_or_h], wall, ray) == 3)
+		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || \
+		get_wall(config, inter[v_or_h], wall, ray) == 3)
+		{
+			// ray->distance = inter[v_or_h][2];
+			ray->distance = fix_fish_eye(config->pos, inter[v_or_h], config->direction);
 			break ;
+		}
 		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
 	}
 	if (ray == NULL)

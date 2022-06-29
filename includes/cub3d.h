@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/06/28 17:53:47 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
+/*   Updated: 2022/06/29 19:06:48 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_camera
 
 typedef struct s_ray
 {
+	float	distance;
 	int		direction;
 	float	pos_on_wall;
 	int		x;
@@ -114,44 +115,44 @@ typedef enum s_objects
 	OTHER
 }	t_objects;
 
-// typedef enum e_keys
-// {
-// 	ARROW_R	= 124,
-// 	ARROW_L	= 123,
-// 	ARROW_U	= 125,
-// 	ARROW_D	= 126,
-// 	PAGE_U	= 116,
-// 	PAGE_D	= 121,
-// 	PLUS	= 24,
-// 	ESC		= 53,
-// 	MIN		= 27,
-// 	Q		= 12,
-// 	W		= 13,
-// 	E		= 14,
-// 	A		= 0,
-// 	S		= 1,
-// 	D		= 2
-// }	t_keys;
-
-
 typedef enum e_keys
 {
-	ARROW_R	= 65363,
-	ARROW_L	= 65361,
-	ARROW_U	= 65361,
-	ARROW_D	= 65363,
+	ARROW_R	= 124,
+	ARROW_L	= 123,
+	ARROW_U	= 125,
+	ARROW_D	= 126,
 	PAGE_U	= 116,
 	PAGE_D	= 121,
 	PLUS	= 24,
 	ESC		= 53,
 	MIN		= 27,
 	Q		= 12,
-	W		= 119,
+	W		= 13,
 	E		= 14,
-	A		= 97,
-	S		= 115,
-	D		= 100, 
+	A		= 0,
+	S		= 1,
+	D		= 2
 }	t_keys;
+
+
+// typedef enum e_keys
+// {
+// 	ARROW_R	= 65363,
+// 	ARROW_L	= 65361,
+// 	ARROW_U	= 65361,
+// 	ARROW_D	= 65363,
+// 	PAGE_U	= 116,
+// 	PAGE_D	= 121,
+// 	PLUS	= 24,
+// 	ESC		= 53,
+// 	MIN		= 27,
+// 	Q		= 12,
+// 	W		= 119,
+// 	E		= 14,
+// 	A		= 97,
+// 	S		= 115,
+// 	D		= 100, 
+// }	t_keys;
 
 typedef enum e_textures
 {
@@ -165,12 +166,12 @@ typedef enum e_textures
 
 # define GREY			0x00808080
 # define RED			0x00FF0000
-# define WHITE			0x00FFFF00
+# define WHITE			0x00FFFFFF
 # define PINK			0x00FF1493
 # define BLACK			0x00000000
 
-# define WINDOW_WIDTH 1300
-# define WINDOW_HEIGHT 900
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 800
 # define PI 3.14159
 # define FOV 90.0
 
