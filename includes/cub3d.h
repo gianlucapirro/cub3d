@@ -115,44 +115,44 @@ typedef enum s_objects
 	OTHER
 }	t_objects;
 
-typedef enum e_keys
-{
-	ARROW_R	= 124,
-	ARROW_L	= 123,
-	ARROW_U	= 125,
-	ARROW_D	= 126,
-	PAGE_U	= 116,
-	PAGE_D	= 121,
-	PLUS	= 24,
-	ESC		= 53,
-	MIN		= 27,
-	Q		= 12,
-	W		= 13,
-	E		= 14,
-	A		= 0,
-	S		= 1,
-	D		= 2
-}	t_keys;
-
-
 // typedef enum e_keys
 // {
-// 	ARROW_R	= 65363,
-// 	ARROW_L	= 65361,
-// 	ARROW_U	= 65361,
-// 	ARROW_D	= 65363,
+// 	ARROW_R	= 124,
+// 	ARROW_L	= 123,
+// 	ARROW_U	= 125,
+// 	ARROW_D	= 126,
 // 	PAGE_U	= 116,
 // 	PAGE_D	= 121,
 // 	PLUS	= 24,
 // 	ESC		= 53,
 // 	MIN		= 27,
 // 	Q		= 12,
-// 	W		= 119,
+// 	W		= 13,
 // 	E		= 14,
-// 	A		= 97,
-// 	S		= 115,
-// 	D		= 100, 
+// 	A		= 0,
+// 	S		= 1,
+// 	D		= 2
 // }	t_keys;
+
+
+typedef enum e_keys
+{
+	ARROW_R	= 65363,
+	ARROW_L	= 65361,
+	ARROW_U	= 65361,
+	ARROW_D	= 65363,
+	PAGE_U	= 116,
+	PAGE_D	= 121,
+	PLUS	= 24,
+	ESC		= 53,
+	MIN		= 27,
+	Q		= 12,
+	W		= 119,
+	E		= 14,
+	A		= 97,
+	S		= 115,
+	D		= 100, 
+}	t_keys;
 
 typedef enum e_textures
 {
@@ -170,10 +170,10 @@ typedef enum e_textures
 # define PINK			0x00FF1493
 # define BLACK			0x00000000
 
-# define WINDOW_WIDTH 800
+# define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 800
 # define PI 3.14159
-# define FOV 90.0
+# define FOV 60.0
 
 # define PACE	0.25
 # define ROTATION_SPEED	10
@@ -241,7 +241,7 @@ int		key_press(int keycode, t_config	*config);
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 
 int		rotate(float vec[2], float deg);
-int		cast(t_config *config, t_ray *ray, float direction[2]);
+int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
 int	draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2]);
 
 #endif

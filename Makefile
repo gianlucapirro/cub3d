@@ -36,12 +36,12 @@ LIBFTDIR	= 	./libft/
 
 GNL			=	get_next_line.c
 
-LIBMLXDIR	=	 mlx
-# LIBMLXDIR	=	 mlx_linux
-MLX_INCLUDE = 	-framework OpenGL -framework AppKit
+# LIBMLXDIR	=	 mlx
+LIBMLXDIR	=	 mlx_linux
+# MLX_INCLUDE = 	-framework OpenGL -framework AppKit
 LIBMLX 		= 	libmlx.a
 # LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx_linux
-LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
+# LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
 
 ################################## DIRECTORIES
 
@@ -97,8 +97,8 @@ INCL 		= 	./includes
 all : $(LIBFT) $(LIBMLXDIR)/$(LIBMLX) $(NAME)
 
 $(NAME) : $(OBJS) $(INC) $(LIBFT) $(LIBMLXDIR)/$(LIBMLX)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) $(LIBMLXLINK) $(MLX_INCLUDE)
-	# $(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+# $(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) $(LIBMLXLINK) $(MLX_INCLUDE)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 $(LIBFT) :
 	make -C libft all

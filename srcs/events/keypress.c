@@ -43,6 +43,8 @@ static int	is_valid_pos(t_config	*config, float x, float y)
 		return (FALSE);
 	if ((config->map)[pos_bottom][pos_right] != FLOOR)
 		return (FALSE);
+	config->pos[0] = x;
+	config->pos[1] = y;
 	return (TRUE);
 }
 
@@ -59,18 +61,23 @@ of the keycodes in the if statements an action will take place.
 */
 int	key_press(int key, t_config	*config)
 {
-	printf("%i\n", key);
-	if (key == W && is_valid_pos(config, config->pos[0], config->pos[1] + PACE))
-		config->pos[1] += PACE;
-	if (key == A && is_valid_pos(config, config->pos[0] - PACE, config->pos[1]))
-		config->pos[0] -= PACE;
-	if (key == S && is_valid_pos(config, config->pos[0], config->pos[1] - PACE))
-		config->pos[1] -= PACE;
-	if (key == D && is_valid_pos(config, config->pos[0] + PACE, config->pos[1]))
-		config->pos[0] += PACE;
+	float d[2];
+
+	d[0] = config->direction[0] * PACE;
+	d[1] = config->direction[1] * PACE;
+	if (key == A || key == D)
+		rotate(d, 90);
+	if (key == W)
+		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
+	if (key == A)
+		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
+	if (key == S)
+		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
+	if (key == D)
+		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
 	if (key == ARROW_L)
-		rotate_player(config, 5);
-	if (key == ARROW_R)
 		rotate_player(config, -5);
+	if (key == ARROW_R)
+		rotate_player(config, 5);
 	return (0);
 }

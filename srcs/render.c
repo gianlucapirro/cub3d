@@ -65,7 +65,7 @@ int	cast_all_lines(t_config *config, t_data *img_data)
 		direction[0] = config->direction[0];
 		direction[1] = config->direction[1];
 		rotate(direction, (i * step_size) + (FOV / -2));
-		if (cast(config, &ray, direction) != FAILED) {
+		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED) {
 			put_img_column(img_data, &ray, i);
 			// wall[0] = ray.x;
 			// wall[1] = ray.y;
@@ -93,9 +93,9 @@ int	render_next_frame(void *tmp)
 	img_data.img = mlx_new_image(config->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
 	&img_data.line_length, &img_data.endian);
-	// draw_minimap(config, &img_data);
 	cast_all_lines(config, &img_data);
 	mlx_put_image_to_window(config->mlx, config->mlx_win, img_data.img, 0, 0);
+	draw_minimap(config, &img_data);
 	free(img_data.img);
 	// free(img_data.addr);
 	return (SUCCES);

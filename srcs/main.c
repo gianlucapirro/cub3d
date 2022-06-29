@@ -41,11 +41,10 @@ int	setup_config(t_config *config, int argc, char *argv[])
 	parse(fn, config);
 	error_handling(argc, config);
 	get_start_pos(config);
-	config->player_size[0] = 10;
-	config->player_size[1] = 10;
-	config->block_size[0] = 30;
-	config->block_size[1] = 30;
-	config->direction[0] += 0.05;
+	config->player_size[0] = 3;
+	config->player_size[1] = 3;
+	config->block_size[0] = 10;
+	config->block_size[1] = 10;
 	config->mlx = mlx_init();
 	if (!config->mlx)
 		exit_error("MLX init failed", MALLOC_ERROR);

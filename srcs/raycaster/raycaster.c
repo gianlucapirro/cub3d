@@ -162,25 +162,27 @@ int	get_closest_intersection(t_config *config, float *inter[2])
 
 float	fix_fish_eye(float pos[2], float inter[2], float direc[2])
 {
-	float	a[2];
-	float	b[2];
-	float	c[2];
+	float	u[2];
+	float	v[2];
+	float	c;
 	float	d;
 
-	a[0] = inter[0] - pos[0];
-	a[1] = inter[1] - pos[1];
-	b[0] = direc[0];
-	b[1] = direc[1];
-	c[0] = a[0] * b[0];
-	c[1] = a[1] * b[1];
-	d = (b[0] * b[0]) + (b[1] * b[1]);
-	c[0] = c[0] / d;
-	c[1] = c[1] / d;
-	return ((c[0] * c[0]) + (c[1] * c[1]));
+	u[0] = inter[0] - pos[0];
+	u[1] = inter[1] - pos[1];
+	v[0] = direc[0];
+	v[1] = direc[1];
+	c = sqrt((u[0] * u[0]) + (u[1] * u[1]));
+	d = sqrt((v[0] * v[0]) + (v[1] * v[1]));
+	u[0] = u[0] / c;
+	u[1] = u[1] / c;
+	v[0] = v[0] / d;
+	v[1] = v[1] / d;
+	d = u[0] * v[0] + u[1] * v[1];
+	return d;
 }
 
 //inter has intersec x and y in each array is x, y, distance
-int	cast(t_config *config, t_ray *ray, float direction[2])
+int	cast(t_config *config, t_ray *ray, float direction[2], float angle)
 {
 	float	inter[2][3];
 	int		v_or_h;
@@ -196,7 +198,7 @@ int	cast(t_config *config, t_ray *ray, float direction[2])
 		get_wall(config, inter[v_or_h], wall, ray) == 3)
 		{
 			// ray->distance = inter[v_or_h][2];
-			ray->distance = fix_fish_eye(config->pos, inter[v_or_h], config->direction);
+			ray->distance = inter[v_or_h][2] * (float)cos((double)deg_to_rad(angle));//fix_fish_eye(config->pos, inter[v_or_h], config->direction);
 			break ;
 		}
 		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
