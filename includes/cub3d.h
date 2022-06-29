@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/29 19:06:48 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/29 20:45:20 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,44 +115,43 @@ typedef enum s_objects
 	OTHER
 }	t_objects;
 
-// typedef enum e_keys
-// {
-// 	ARROW_R	= 124,
-// 	ARROW_L	= 123,
-// 	ARROW_U	= 125,
-// 	ARROW_D	= 126,
-// 	PAGE_U	= 116,
-// 	PAGE_D	= 121,
-// 	PLUS	= 24,
-// 	ESC		= 53,
-// 	MIN		= 27,
-// 	Q		= 12,
-// 	W		= 13,
-// 	E		= 14,
-// 	A		= 0,
-// 	S		= 1,
-// 	D		= 2
-// }	t_keys;
-
-
 typedef enum e_keys
 {
-	ARROW_R	= 65363,
-	ARROW_L	= 65361,
-	ARROW_U	= 65361,
-	ARROW_D	= 65363,
+	ARROW_R	= 124,
+	ARROW_L	= 123,
+	ARROW_U	= 125,
+	ARROW_D	= 126,
 	PAGE_U	= 116,
 	PAGE_D	= 121,
 	PLUS	= 24,
 	ESC		= 53,
 	MIN		= 27,
 	Q		= 12,
-	W		= 119,
+	W		= 13,
 	E		= 14,
-	A		= 97,
-	S		= 115,
-	D		= 100, 
+	A		= 0,
+	S		= 1,
+	D		= 2
 }	t_keys;
+
+// typedef enum e_keys
+// {
+// 	ARROW_R	= 65363,
+// 	ARROW_L	= 65361,
+// 	ARROW_U	= 65361,
+// 	ARROW_D	= 65363,
+// 	PAGE_U	= 116,
+// 	PAGE_D	= 121,
+// 	PLUS	= 24,
+// 	ESC		= 53,
+// 	MIN		= 27,
+// 	Q		= 12,
+// 	W		= 119,
+// 	E		= 14,
+// 	A		= 97,
+// 	S		= 115,
+// 	D		= 100, 
+// }	t_keys;
 
 typedef enum e_textures
 {

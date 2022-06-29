@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 16:13:45 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/29 19:08:40 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/29 20:50:53 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ int	key_press(int key, t_config	*config)
 		rotate(d, 90);
 	if (key == W)
 		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
-	if (key == A)
+	if (key == D)
 		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
 	if (key == S)
 		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
-	if (key == D)
+	if (key == A)
 		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
-	if (key == ARROW_L)
-		rotate_player(config, -5);
 	if (key == ARROW_R)
+		rotate_player(config, -5);
+	if (key == ARROW_L)
 		rotate_player(config, 5);
 	return (0);
 }

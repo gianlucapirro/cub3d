@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:33:37 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/29 19:26:05 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/29 20:44:00 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,7 @@ int	cast(t_config *config, t_ray *ray, float direction[2], float angle)
 		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || \
 		get_wall(config, inter[v_or_h], wall, ray) == 3)
 		{
-			// ray->distance = inter[v_or_h][2];
-			ray->distance = inter[v_or_h][2] * (float)cos((double)deg_to_rad(angle));//fix_fish_eye(config->pos, inter[v_or_h], config->direction);
+			ray->distance = inter[v_or_h][2] * (float)cos((double)deg_to_rad(angle));
 			break ;
 		}
 		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
