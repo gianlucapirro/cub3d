@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/29 20:45:20 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/30 13:48:13 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		w;
+	int		h;
 }		t_data;
 
 typedef struct s_point {
@@ -41,6 +43,7 @@ typedef struct s_point {
 
 typedef struct s_config
 {
+	t_data	texture;
 	int		**map;
 	int		dimensions[2];
 	int		player_size[2];
@@ -241,6 +244,6 @@ int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 
 int		rotate(float vec[2], float deg);
 int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
-int	draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2]);
+int		draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2]);
 
 #endif

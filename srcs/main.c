@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:32:30 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/29 18:32:27 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/30 14:50:59 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ int	setup_config(t_config *config, int argc, char *argv[])
 	config->mlx = mlx_init();
 	if (!config->mlx)
 		exit_error("MLX init failed", MALLOC_ERROR);
+	config->texture.img = mlx_xpm_file_to_image(config->mlx, "assets/crate.xpm", \
+	&(config->texture.w), &(config->texture.h));
+	if (!config->texture.img)
+		exit_error("reading image fialed", MALLOC_ERROR);
+	config->texture.addr = mlx_get_data_addr(config->texture.img, &config->texture.bits_per_pixel, \
+	&config->texture.line_length, &config->texture.endian);
 	config->mlx_win = mlx_new_window(config->mlx, \
 	WINDOW_WIDTH, WINDOW_HEIGHT, "CUB3D");
 	if (!config->mlx_win)

@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/29 21:14:24 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/06/30 15:07:17 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,27 @@ void	put_pixel(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	put_img_column(t_data *img_data, t_ray *ray, int x)
+unsigned int	get_pixel(t_data *img, float x, float y)
 {
-	int	h;
-	int	i;
-	int	start;
-	int	end;
+	char	*dst;
+	int		px;
+	int		py;
 
-	h = (int)(WINDOW_HEIGHT / ray->distance);
-	start = (WINDOW_HEIGHT - h) / 2;
+	px = (int)(img->w * x);
+	py = (int)(img->h * (1 - y));
+	dst = img->addr + (py * img->line_length + px * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
+
+int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
+{
+	int				i;
+	float			y;
+	int				end;
+	int				start;
+	unsigned int	color;
+
+	start = (WINDOW_HEIGHT - (int)(WINDOW_HEIGHT / ray->distance)) / 2;
 	end = WINDOW_HEIGHT - start;
 	i = -1;
 	while (++i < start)
@@ -42,14 +54,17 @@ int	put_img_column(t_data *img_data, t_ray *ray, int x)
 	i = start - 1;
 	while (++i < end)
 	{
-		if (ray->direction == NORTH)
-			put_pixel(img_data, x, i, WHITE);
-		else if (ray->direction == SOUTH)
-			put_pixel(img_data, x, i, RED);
-		else if (ray->direction == WEST)
-			put_pixel(img_data, x, i, GREY);
-		else if (ray->direction == EAST)
-			put_pixel(img_data, x, i, PINK);
+		y = (float)(i - start) / (float)(end - start);
+		color = get_pixel(&(config->texture), ray->pos_on_wall, y);
+		put_pixel(img_data, x, i, (int)color);
+		// if (ray->direction == NORTH)
+		// 	put_pixel(img_data, x, i, WHITE);
+		// else if (ray->direction == SOUTH)
+		// 	put_pixel(img_data, x, i, RED);
+		// else if (ray->direction == WEST)
+		// 	put_pixel(img_data, x, i, GREY);
+		// else if (ray->direction == EAST)
+		// 	put_pixel(img_data, x, i, PINK);
 	}
 	i = end - 1;
 	while (++i < WINDOW_HEIGHT)
@@ -72,9 +87,9 @@ int	cast_all_lines(t_config *config, t_data *img_data)
 		direction[1] = config->direction[1];
 		rotate(direction, (i * step_size) + (FOV / -2));
 		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED) {
-			put_img_column(img_data, &ray, WINDOW_WIDTH - i - 1);
+			put_img_column(config, img_data, &ray, WINDOW_WIDTH - i - 1);
 			if (i % 10 != 0)
-				continue;
+				continue ;
 			wall[0] = ray.x;
 			wall[1] = ray.y;
 			wall[2] = ray.direction;
