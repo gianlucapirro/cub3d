@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/06/30 13:48:13 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/07/01 17:18:54 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_point {
 typedef struct s_config
 {
 	t_data	texture;
+	t_data	textures[4];
+	int		floorcolor;
+	int		ceilingcolor;
 	int		**map;
 	int		dimensions[2];
 	int		player_size[2];
@@ -191,10 +194,11 @@ float	deg_to_rad(float deg);
 
 int		is_valid_c(char c);
 int		is_start_pos(char c);
-int		encode_rgb(u_int8_t r, u_int8_t g, u_int8_t b);
+int		encode_rgb(int r, int g, int b);
 
 //parsing
 
+int		parse_textures(t_config *config, t_list_m *linesread, int len);
 int		get_start_pos(t_config *config);
 int		parse(char *fn, t_config *config);
 void	get_fn(char **fn, char *argv[]);
@@ -222,6 +226,12 @@ void	draw_cross(t_data *img_data, int pos[2], int size);
 //events
 
 int		key_press(int keycode, t_config	*config);
+
+
+
+
+
+void	print_maparray(int dimensions[2], int **map);
 
 /******************************************************************************/
 /* Checks if the wall exist, if so set the correct position of the ray on     */

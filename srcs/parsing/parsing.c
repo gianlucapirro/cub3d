@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/25 17:59:08 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/07/01 17:34:26 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param linesread 
  * @return SUCCES on succes 
  */
-int	map2list(char *fn, t_list_m	**linesread)
+int	file2list(char *fn, t_list_m	**linesread)
 {
 	int			fd;
 	char		*buffer;
@@ -145,7 +145,14 @@ int	parse(char *fn, t_config *config)
 {
 	t_list_m	*linesread;
 
-	map2list(fn, &linesread);
+	config->textures[NORTH].img = NULL;
+	config->textures[SOUTH].img = NULL;
+	config->textures[WEST].img = NULL;
+	config->textures[EAST].img = NULL;
+	config->ceilingcolor = -1;
+	config->floorcolor = -1;
+	file2list(fn, &linesread);
+	parse_textures(config, linesread, linesread->len);
 	calc_dimensions(linesread, config->dimensions);
 	lst2maparray(linesread, config->dimensions, &config->map);
 	list_m_free(linesread, 1);

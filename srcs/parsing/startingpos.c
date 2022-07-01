@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:22:22 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/23 18:51:13 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/07/01 16:58:06 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int	get_start_pos(t_config *config)
 			}
 		}
 	}
+	exit_error("Error\nCould not find starting position", PARSE_ERROR);
 	return (FAILED);
 }

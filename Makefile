@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/06/29 20:44:45 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/07/01 16:32:42 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
 
 PARSING		=	parsing.c\
 				parsingutils.c\
-				startingpos.c
+				startingpos.c\
+				parsetexture.c
 
 EVENTS		=	keypress.c
 
