@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:32:30 by hthomas           #+#    #+#             */
-/*   Updated: 2022/07/01 16:56:30 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/13 20:08:57 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,17 @@
 
 /******************************************************************************/
 /* Function: setup_config                                                     */
-/*                                                                            */
 /* Description:                                                               */
 /*      This funciton set-ups the config struct with all necesarry information*/
 /*      to start the game                                                     */
-/*                                                                            */
 /* t_config *config:                                                          */
 /*      Configuration struct with all information to start the game           */
-/*                                                                            */
 /* int argc:                                                                  */
 /*      Amount of arguments of program                                        */
-/*                                                                            */
 /* char *argv[]:                                                              */
 /*      arguments of executable                                               */
-/*                                                                            */
 /* Returns (int):                                                             */
 /*      SUCCES                                                                */
-/*                                                                            */
 /******************************************************************************/
 int	setup_config(t_config *config, int argc, char *argv[])
 {
@@ -56,6 +50,8 @@ int	setup_config(t_config *config, int argc, char *argv[])
 }
 
 //TODO: make inter struct instead of float inter[2] in raycaster.c
+//TODO: esc en kruisje moeten program stoppen
+//TODO: Map color werkt met comma moet fout gaan.
 int	main(int argc, char *argv[])
 {
 	t_config	config;

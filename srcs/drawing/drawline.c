@@ -6,22 +6,11 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 17:16:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/27 13:10:34 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 10:06:23 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-/*
- Takes a double x and returns the absolute value of the number
- */
-static double	dabs(double x)
-{
-	if (x < 0)
-		return (x * -1);
-	else
-		return (x);
-}
 
 /*
  If  the value of a2 is smaller than the value of a1 it will swap 

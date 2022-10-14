@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:33:15 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/27 13:14:37 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:00:16 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static int	draw_direction(t_config *config, t_data *img_data)
 	return (SUCCES);
 }
 
-int	draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2])
+int	draw_minimap_line(t_config *config, \
+t_data *img_data, float start[2], float end[2])
 {
 	t_point	p1;
 	t_point	p2;
@@ -115,15 +116,5 @@ int	draw_minimap(t_config *config, t_data *img_data)
 	}
 	draw_minimap_player(config, img_data);
 	draw_direction(config, img_data);
-	return (SUCCES);
-}
-
-int	draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2])
-{
-	int	mpos[2];
-
-	mpos[0] = (int)(pos[0] * conf->block_size[0]);
-	mpos[1] = (int)(pos[1] * conf->block_size[1]);
-	draw_cross(img_data, mpos, 5);
 	return (SUCCES);
 }

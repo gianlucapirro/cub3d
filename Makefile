@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/07/01 16:32:42 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/10/14 09:49:39 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ DRAWING		=	quad.c\
 MATH		=	rotate.c\
 				math_utils.c
 
-RAYCASTER	=	raycaster.c
+RAYCASTER	=	raycaster.c \
+				raycasterutils.c
 
 ################################## FLAGS
 
@@ -85,6 +86,7 @@ SRCS		=	$(LIST) \
 				$(RAYCASTER) \
 				render.c \
 				minimap.c \
+				utils.c \
 				main.c
 
 OBJS 		= 	$(SRCS:.c=.o)

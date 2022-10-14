@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 16:13:45 by gpirro            #+#    #+#             */
-/*   Updated: 2022/06/29 20:50:53 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/13 20:10:53 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ of the keycodes in the if statements an action will take place.
 */
 int	key_press(int key, t_config	*config)
 {
-	float d[2];
+	float	d[2];
 
 	d[0] = config->direction[0] * PACE;
 	d[1] = config->direction[1] * PACE;

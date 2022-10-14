@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 21:37:36 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/07/01 17:32:51 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 12:49:33 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,6 @@ static int	parse_texture(t_config *config, t_data *texture, char *line)
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, \
 	&texture->line_length, &texture->endian);
 	return (SUCCES);
-}
-
-static int	free_array(char **arr)
-{
-	int	i;
-
-	i = -1;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
-	return (SUCCES);
-}
-
-static int	ft_arr_len(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
 }
 
 static int	parse_number(char *str)
@@ -103,32 +82,13 @@ static int	parse_floor_ceiling(int *color, char *line)
 	return (SUCCES);
 }
 
-int	check_empty_line(char *buffer)
-{
-	buffer = ft_strtrim(buffer, " ");
-	if (!buffer)
-		exit_error("Error\nMalloc failed", MALLOC_ERROR);
-	if (ft_strncmp(buffer, "\n", 1) == 0)
-	{
-		free(buffer);
-		return (true);
-	}
-	free(buffer);
-	return (false);
-}
-
+// loop over lines read and checks corresponding direction then parses
+// texture 
 int	parse_textures(t_config *config, t_list_m *linesread, int len)
 {
 	int		i;
 	char	*buffer;
 
-	for (int p = 0; p < linesread->len; p++)
-	{
-		list_m_get(linesread, (void **)&buffer, p);
-		printf("%s", buffer);
-	}
-
-	printf("\n\n");
 	i = -1;
 	while (++i < len)
 	{

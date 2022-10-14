@@ -6,17 +6,11 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:33:37 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/29 20:44:00 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 09:57:35 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-float	calc_dist(float *p1, float *p2)
-{
-	return ((float)sqrt(pow((double)fabsf(p1[0] - p2[0]), (double)2) +\
-			pow((double)fabsf(p1[1] - p2[1]), (double)2)));
-}
 
 int	first_intersect_h(float pos[2], float direc[2], float intersect[3])
 {
@@ -68,7 +62,8 @@ int	first_intersect_v(float pos[2], float direc[2], float intersect[3])
 	return (SUCCES);
 }
 
-static int	get_next_intersect(float vec[3], float direc[2], float pos[2], int v_or_h)
+int	get_next_intersect(float vec[3], \
+float direc[2], float pos[2], int v_or_h)
 {
 	float	d;
 	float	new_vec[2];
@@ -96,11 +91,12 @@ static int	get_next_intersect(float vec[3], float direc[2], float pos[2], int v_
 	return (SUCCES);
 }
 
-int get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
+int	get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 {
 	float	ray_pos_on_wall;
 
-	if (wall[0] < 0 || wall[1] < 0 || wall[0] >= config->dimensions[0] || wall[1] >= config->dimensions[1])
+	if (wall[0] < 0 || wall[1] < 0 || wall[0] >= \
+	config->dimensions[0] || wall[1] >= config->dimensions[1])
 		return (3);
 	if (config->map[wall[1]][wall[0]] != WALL)
 		return (FAILED);
@@ -108,12 +104,12 @@ int get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 		ray_pos_on_wall = inter[0] - floor(inter[0]);
 	else
 		ray_pos_on_wall = inter[1] - floor(inter[1]);
-	if (wall[2] == NORTH || wall[2] == EAST)
+	if (wall[2] == NORTH || wall[2] == WEST)
 		ray_pos_on_wall = 1 - ray_pos_on_wall;
 	ray->x = wall[0];
 	ray->y = wall[1];
 	ray->direction = wall[2];
-	ray->pos_on_wall = ray_pos_on_wall; 
+	ray->pos_on_wall = ray_pos_on_wall;
 	ray->real_x = inter[0];
 	ray->real_y = inter[1];
 	return (SUCCES);
@@ -147,62 +143,4 @@ t_bool	intersect_to_wall(float direc[2], float inter[2], int wall[3], int axis)
 		wall[2] = EAST;
 	}
 	return (TRUE);
-}
-
-int	get_closest_intersection(t_config *config, float *inter[2])
-{
-	if (!inter[0])
-		return (1);
-	else if (!inter[1])
-		return (0);
-	else if (calc_dist(inter[0], config->pos) < calc_dist(inter[1], config->pos))
-		return (0);
-	return (1);
-}
-
-float	fix_fish_eye(float pos[2], float inter[2], float direc[2])
-{
-	float	u[2];
-	float	v[2];
-	float	c;
-	float	d;
-
-	u[0] = inter[0] - pos[0];
-	u[1] = inter[1] - pos[1];
-	v[0] = direc[0];
-	v[1] = direc[1];
-	c = sqrt((u[0] * u[0]) + (u[1] * u[1]));
-	d = sqrt((v[0] * v[0]) + (v[1] * v[1]));
-	u[0] = u[0] / c;
-	u[1] = u[1] / c;
-	v[0] = v[0] / d;
-	v[1] = v[1] / d;
-	d = u[0] * v[0] + u[1] * v[1];
-	return d;
-}
-
-//inter has intersec x and y in each array is x, y, distance
-int	cast(t_config *config, t_ray *ray, float direction[2], float angle)
-{
-	float	inter[2][3];
-	int		v_or_h;
-	int		wall[3];
-
-	first_intersect_v(config->pos, direction, inter[0]);
-	first_intersect_h(config->pos, direction, inter[1]);
-	while (1) 
-	{
-		v_or_h = inter[0][2] > inter[1][2];
-		intersect_to_wall(direction, inter[v_or_h], wall, v_or_h);
-		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || \
-		get_wall(config, inter[v_or_h], wall, ray) == 3)
-		{
-			ray->distance = inter[v_or_h][2] * (float)cos((double)deg_to_rad(angle));
-			break ;
-		}
-		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
-	}
-	if (ray == NULL)
-		return (FAILED);
-	return (SUCCES);
 }

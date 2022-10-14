@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/07/01 16:37:09 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:03:49 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 	float			y;
 	int				end;
 	int				start;
-	// unsigned int	color;
 
 	start = (WINDOW_HEIGHT - (int)(WINDOW_HEIGHT / ray->distance)) / 2;
 	end = WINDOW_HEIGHT - start;
@@ -55,8 +54,6 @@ int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 	while (++i < end)
 	{
 		y = (float)(i - start) / (float)(end - start);
-		// color = get_pixel(&(config->texture), ray->pos_on_wall, y);
-		// put_pixel(img_data, x, i, (int)color);
 		if (ray->direction == NORTH)
 			put_pixel(img_data, x, i, get_pixel(&(config->textures[NORTH]), \
 			ray->pos_on_wall, y));
@@ -81,27 +78,18 @@ int	cast_all_lines(t_config *config, t_data *img_data)
 	float	step_size;
 	t_ray	ray;
 	float	direction[2];
-	// int		wall[3];
-	// float	pos[2];
+	int		i;
 
+	i = 0;
 	step_size = FOV / WINDOW_WIDTH;
-	for (int i = 0; i < WINDOW_WIDTH; i++)
+	while (i < WINDOW_WIDTH)
 	{
 		direction[0] = config->direction[0];
 		direction[1] = config->direction[1];
 		rotate(direction, (i * step_size) + (FOV / -2));
-		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED) {
+		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED)
 			put_img_column(config, img_data, &ray, WINDOW_WIDTH - i - 1);
-			// if (i % 10 != 0)
-			// 	continue ;
-			// wall[0] = ray.x;
-			// wall[1] = ray.y;
-			// wall[2] = ray.direction;
-			// pos[0] = ray.real_x;
-			// pos[1] = ray.real_y;
-			// draw_wall(config, img_data, wall, color);
-			// draw_minimap_line(config, img_data, pos, config->pos);
-		}
+		i++;
 	}
 	return (0);
 }

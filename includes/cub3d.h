@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/07/01 17:18:54 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:00:57 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,25 +140,6 @@ typedef enum e_keys
 	D		= 2
 }	t_keys;
 
-// typedef enum e_keys
-// {
-// 	ARROW_R	= 65363,
-// 	ARROW_L	= 65361,
-// 	ARROW_U	= 65361,
-// 	ARROW_D	= 65363,
-// 	PAGE_U	= 116,
-// 	PAGE_D	= 121,
-// 	PLUS	= 24,
-// 	ESC		= 53,
-// 	MIN		= 27,
-// 	Q		= 12,
-// 	W		= 119,
-// 	E		= 14,
-// 	A		= 97,
-// 	S		= 115,
-// 	D		= 100, 
-// }	t_keys;
-
 typedef enum e_textures
 {
 	NO,
@@ -179,25 +160,23 @@ typedef enum e_textures
 # define WINDOW_HEIGHT 800
 # define PI 3.14159
 # define FOV 60.0
-
 # define PACE	0.25
 # define ROTATION_SPEED	10
-
 # define INFINITY_INT 1000000
-//libft+
 
+//libft+
 void	exit_error(char *msg, int exitcode);
 void	*pcalloc(size_t	size);
 float	deg_to_rad(float deg);
 
 //utils
-
 int		is_valid_c(char c);
 int		is_start_pos(char c);
 int		encode_rgb(int r, int g, int b);
+int		ft_arr_len(char **arr);
+int		check_empty_line(char *buffer);
 
 //parsing
-
 int		parse_textures(t_config *config, t_list_m *linesread, int len);
 int		get_start_pos(t_config *config);
 int		parse(char *fn, t_config *config);
@@ -205,16 +184,13 @@ void	get_fn(char **fn, char *argv[]);
 void	print_maparray(int dimensions[2], int **map);
 
 //error
-
 void	error_handling(int argc, t_config *config);
 
 //minilibx+
-
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_next_frame(void *tmp);
 
 //drawing
-
 int		draw_minimap(t_config *config, t_data *img_data);
 int		draw_wall(t_config *c, t_data *img_d, int wall[3], int color);
 int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
@@ -224,15 +200,8 @@ void	draw_line(t_data *data, t_point *p1, t_point *p2, int color);
 void	draw_cross(t_data *img_data, int pos[2], int size);
 
 //events
-
 int		key_press(int keycode, t_config	*config);
-
-
-
-
-
 void	print_maparray(int dimensions[2], int **map);
-
 /******************************************************************************/
 /* Checks if the wall exist, if so set the correct position of the ray on     */
 /* the wall. It flips coordinates of NORTH and WEST to make sure the          */
@@ -251,9 +220,22 @@ void	print_maparray(int dimensions[2], int **map);
 /*      SUCCES if wall was found FAILED if not                                */
 /******************************************************************************/
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
-
 int		rotate(float vec[2], float deg);
 int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
-int		draw_minimap_line(t_config *config, t_data *img_data, float start[2], float end[2]);
+int		draw_minimap_line(t_config *config, \
+		t_data *img_data, float start[2], float end[2]);
+int		first_intersect_v(float pos[2], float direc[2], float intersect[3]);
+int		first_intersect_h(float pos[2], float direc[2], float intersect[3]);
+
+int		get_closest_intersection(t_config *config, float *inter[2]);
+float	fix_fish_eye(float pos[2], float inter[2], float direc[2]);
+double	dabs(double x);
+int		get_next_intersect(float vec[3], \
+		float direc[2], float pos[2], int v_or_h);
+int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
+int		free_array(char **arr);
+float	calc_dist(float *p1, float *p2);
+t_bool	intersect_to_wall(float direc[2], float inter[2], \
+		int wall[3], int axis);
 
 #endif
