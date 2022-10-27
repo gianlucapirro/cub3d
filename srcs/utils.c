@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 09:30:10 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/10/14 10:24:20 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   utils.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/14 09:30:10 by gianlucapir   #+#    #+#                 */
+/*   Updated: 2022/10/27 18:13:43 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ double	dabs(double x)
 		return (x);
 }
 
-int	draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2])
+int	draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2])
 {
 	int	mpos[2];
 
 	mpos[0] = (int)(pos[0] * conf->block_size[0]);
 	mpos[1] = (int)(pos[1] * conf->block_size[1]);
-	draw_cross(img_data, mpos, 5);
+	draw_cross(img, mpos, 5);
 	return (SUCCES);
 }

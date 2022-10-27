@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsetexture.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/26 21:37:36 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/10/14 12:49:33 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parsetexture.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/26 21:37:36 by gianlucapir   #+#    #+#                 */
+/*   Updated: 2022/10/27 15:14:22 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,15 @@ int	encode_rgb(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
-static int	parse_texture(t_config *config, t_data *texture, char *line)
+static int	parse_texture(mlx_texture_t **texture, char *line)
 {
-	if (texture->img != NULL)
-		exit_error("Error\nDuplicate identifier", PARSE_ERROR);
 	line += 3;
 	while (*line && *line == ' ')
 		line++;
 	if (*line == 0)
 		exit_error("Error\nNo texture file provided", PARSE_ERROR);
 	line[ft_strlen(line) - 1] = 0;
-	texture->img = mlx_xpm_file_to_image(config->mlx, line, \
-	&(texture->w), &(texture->h));
-	if (!texture->img)
-		exit_error("Error\nReading image failed", MALLOC_ERROR);
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, \
-	&texture->line_length, &texture->endian);
+	*texture = mlx_load_png(line);
 	return (SUCCES);
 }
 
@@ -94,13 +87,13 @@ int	parse_textures(t_config *config, t_list_m *linesread, int len)
 	{
 		list_m_get(linesread, (void **)&buffer, i);
 		if (ft_strncmp(buffer, "NO ", 3) == 0)
-			parse_texture(config, &(config->textures[NORTH]), buffer);
+			parse_texture(&(config->textures[NORTH]), buffer);
 		else if (ft_strncmp(buffer, "SO ", 3) == 0)
-			parse_texture(config, &(config->textures[SOUTH]), buffer);
+			parse_texture(&(config->textures[SOUTH]), buffer);
 		else if (ft_strncmp(buffer, "WE ", 3) == 0)
-			parse_texture(config, &(config->textures[WEST]), buffer);
+			parse_texture(&(config->textures[WEST]), buffer);
 		else if (ft_strncmp(buffer, "EA ", 3) == 0)
-			parse_texture(config, &(config->textures[EAST]), buffer);
+			parse_texture(&(config->textures[EAST]), buffer);
 		else if (ft_strncmp(buffer, "F ", 2) == 0)
 			parse_floor_ceiling(&(config->floorcolor), buffer);
 		else if (ft_strncmp(buffer, "C ", 2) == 0)

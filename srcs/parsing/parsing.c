@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 18:34:48 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/10/14 09:36:27 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parsing.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/18 18:34:48 by gianlucapir   #+#    #+#                 */
+/*   Updated: 2022/10/27 15:12:38 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,10 @@ int	parse(char *fn, t_config *config)
 {
 	t_list_m	*linesread;
 
-	config->textures[NORTH].img = NULL;
-	config->textures[SOUTH].img = NULL;
-	config->textures[WEST].img = NULL;
-	config->textures[EAST].img = NULL;
+	config->textures[NORTH] = NULL;
+	config->textures[SOUTH] = NULL;
+	config->textures[WEST] = NULL;
+	config->textures[EAST] = NULL;
 	config->ceilingcolor = -1;
 	config->floorcolor = -1;
 	file2list(fn, &linesread);

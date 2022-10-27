@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   keypress.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 16:13:45 by gpirro            #+#    #+#             */
-/*   Updated: 2022/10/13 20:10:53 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   keypress.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/11/26 16:13:45 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/10/27 18:21:53 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,17 @@ This function is called in a hook, so it will wait until
 a key is pressed. If the key that is pressed matches one 
 of the keycodes in the if statements an action will take place.
 */
-int	key_press(int key, t_config	*config)
+void	key_press(mlx_key_data_t rkey, void	*data)
 {
-	float	d[2];
+	float		d[2];
+	t_config	*config;
+	int			key;
 
+	key = rkey.os_key;
+	config = (t_config *)data;
 	d[0] = config->direction[0] * PACE;
 	d[1] = config->direction[1] * PACE;
+
 	if (key == A || key == D)
 		rotate(d, 90);
 	if (key == W)
@@ -79,5 +84,4 @@ int	key_press(int key, t_config	*config)
 		rotate_player(config, -5);
 	if (key == ARROW_L)
 		rotate_player(config, 5);
-	return (0);
 }

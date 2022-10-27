@@ -1,61 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/10/18 09:31:52 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   render.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/11/17 13:35:24 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/10/27 19:07:33 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-/*
-draws a pixel on the screen and checks if the x and y are still in the Image
- */
-void	put_pixel(t_data *data, int x, int y, int color)
+unsigned int	get_pixel(mlx_texture_t *texture, float x, float y)
 {
-	char	*dst;
+	u_int8_t	*dst;
+	int			px;
+	int			py;
+	u_int32_t	color;
 
-	y = WINDOW_HEIGHT - 1 - y;
-	if (x > WINDOW_WIDTH - 1 || x < 0 || y > WINDOW_HEIGHT - 1 || y < 0)
-		return ;
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	px = (int)(texture->width * x);
+	py = (int)(texture->height * y);
+	dst = texture->pixels + (py * texture->width + px) * 4;
+	((u_int8_t*)&color)[0] = dst[3];
+	((u_int8_t*)&color)[1] = dst[2];
+	((u_int8_t*)&color)[2] = dst[1];
+	((u_int8_t*)&color)[3] = dst[0];
+	return (color);
 }
 
-unsigned int	get_pixel(t_data *img, float x, float y)
-{
-	char	*dst;
-	int		px;
-	int		py;
-
-	px = (int)(img->w * x);
-	py = (int)(img->h * (1 - y));
-	dst = img->addr + (py * img->line_length + px * (img->bits_per_pixel / 8));
-	return (*(unsigned int *)dst);
-}
-
-int	put_img_col_start(t_data *img_data, int x, int start)
+int	put_img_col_start(mlx_image_t *img, int x, int start)
 {
 	int	i;
 
 	i = -1;
 	while (++i < start)
-		put_pixel(img_data, x, i, 0x000000FF);
+		mlx_put_pixel(img, x, i, 0xFF0000FF);
 	return (0);
 }
 
-int put_img_col_end(t_data *img_data, int x, int i)
+int put_img_col_end(mlx_image_t *img, int x, int i)
 {
 	while (++i < WINDOW_HEIGHT)
-		put_pixel(img_data, x, i, 0x0000FF00);
+		mlx_put_pixel(img, x, i, 0x0000FFFF);
 	return (0);
 }
 
-void	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
+void	put_img_column(t_config *config, mlx_image_t *img, t_ray *ray, int x)
 {
 	int				i;
 	float			y;
@@ -64,28 +55,24 @@ void	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 
 	start = (WINDOW_HEIGHT - (int)(WINDOW_HEIGHT / ray->distance)) / 2;
 	end = WINDOW_HEIGHT - start;
-	put_img_col_start(img_data, x, start);
+	put_img_col_start(img, x, start);
 	i = start - 1;
-	while (++i < end)
+	if (i < 0)
+		i = 0;
+	// printf("start: %f\n", ray->distance);
+	while (++i < end && i < WINDOW_HEIGHT)
 	{
 		y = (float)(i - start) / (float)(end - start);
-		if (ray->direction == NORTH)
-			put_pixel(img_data, x, i, get_pixel(&(config->textures[NORTH]), \
-			ray->pos_on_wall, y));
-		else if (ray->direction == SOUTH)
-			put_pixel(img_data, x, i, get_pixel(&(config->textures[SOUTH]), \
-			ray->pos_on_wall, y));
-		else if (ray->direction == WEST)
-			put_pixel(img_data, x, i, get_pixel(&(config->textures[WEST]), \
-			ray->pos_on_wall, y));
-		else if (ray->direction == EAST)
-			put_pixel(img_data, x, i, get_pixel(&(config->textures[EAST]), \
-			ray->pos_on_wall, y));
+		// printf("a\n");
+		unsigned int color = get_pixel((config->textures[ray->direction]), ray->pos_on_wall, y);
+		// printf("%d %d\n", x, i);
+		mlx_put_pixel(img, x, i, color);
 	}
-	put_img_col_end(img_data, x, end - 1);
+	put_img_col_end(img, x, end - 1);
+	// printf("doei\n");
 }
 
-int	cast_all_lines(t_config *config, t_data *img_data)
+int	cast_all_lines(t_config *config, mlx_image_t *img)
 {
 	float	step_size;
 	t_ray	ray;
@@ -99,8 +86,9 @@ int	cast_all_lines(t_config *config, t_data *img_data)
 		direction[0] = config->direction[0];
 		direction[1] = config->direction[1];
 		rotate(direction, (i * step_size) + (FOV / -2));
-		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED)
-			put_img_column(config, img_data, &ray, WINDOW_WIDTH - i - 1);
+		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED) {
+			put_img_column(config, img, &ray, WINDOW_WIDTH - i - 1);
+		}
 		i++;
 	}
 	return (0);
@@ -111,21 +99,14 @@ int	cast_all_lines(t_config *config, t_data *img_data)
  This function is called in a loop (mlx_hook_loop) 
  so that it will draw to the image for every frame.
  */
-int	render_next_frame(void *tmp)
+void	render_next_frame(void *tmp)
 {
-	t_data		img_data;
 	t_config	*config;
 
-	config = (t_config *)(tmp);
-	img_data.img = mlx_new_image(config->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	img_data.addr = mlx_get_data_addr(img_data.img, &img_data.bits_per_pixel, \
-	&img_data.line_length, &img_data.endian);
-	cast_all_lines(config, &img_data);
-	draw_minimap(config, &img_data);
-	mlx_put_image_to_window(config->mlx, config->mlx_win, img_data.img, 0, 0);
-	free(img_data.img);
-	free(img_data.addr);
-	return (SUCCES);
+	config = (t_config *)(tmp);	
+	cast_all_lines(config, config->img); 
+	// draw_minimap(config, config->img); 
+	mlx_image_to_window(config->mlx, config->img, 0, 0);
 }
 
 /**
@@ -135,10 +116,10 @@ int	render_next_frame(void *tmp)
  * @param x 
  * @param y 
  * @param dimensions 
- * @param img_data 
+ * @param img 
  * @return int 
  */
-int	draw_rectangle(int pos[2], int dimensions[2], t_data *img_data, int color)
+int	draw_rectangle(int pos[2], int dimensions[2], mlx_image_t *img, int color)
 {
 	const int	x = pos[0];
 	const int	y = pos[1];
@@ -149,8 +130,10 @@ int	draw_rectangle(int pos[2], int dimensions[2], t_data *img_data, int color)
 	while (++w < dimensions[0])
 	{
 		h = -1;
-		while (++h < dimensions[1])
-			put_pixel(img_data, x + w, y + h, color);
+		while (++h < dimensions[1]) {
+			// printf("%d %d\n", x + w, y - h);
+			mlx_put_pixel(img, x + w, y - h, color);
+		}
 	}
 	return (SUCCES);
 }

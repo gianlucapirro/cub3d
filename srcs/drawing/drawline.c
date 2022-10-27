@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   drawline.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 17:16:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/10/14 10:06:23 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   drawline.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/11/24 17:16:24 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/10/27 18:13:45 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	swap_smallest(int *a1, double *b1, int *a2, double *b2)
  This function is used when the slope is smaller than 1 to
  draw a steap line
  */
-static void	put_line_steap(t_data *data, t_point *p1, t_point *p2, int color)
+static void	put_line_steap(mlx_image_t *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 	int		x1;
@@ -53,7 +53,7 @@ static void	put_line_steap(t_data *data, t_point *p1, t_point *p2, int color)
 	{
 		y1 += slope;
 		x1++;
-		put_pixel(data, x1, (int)y1, color);
+		mlx_put_pixel(data, x1, (int)y1, color);
 	}
 }
 
@@ -61,7 +61,7 @@ static void	put_line_steap(t_data *data, t_point *p1, t_point *p2, int color)
  This function is used when the slope is bigger than 1
  to draw a gentle line
  */
-static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2, int color)
+static void	put_line_gentle(mlx_image_t *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 	double	x1;
@@ -79,7 +79,7 @@ static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2, int color)
 	{
 		x1 += slope;
 		y1++;
-		put_pixel(data, (int)x1, y1, color);
+		mlx_put_pixel(data, (int)x1, y1, color);
 	}
 }
 
@@ -88,7 +88,7 @@ static void	put_line_gentle(t_data *data, t_point *p1, t_point *p2, int color)
  bigger than 1 it will use the function put_line_gentle else it will use
  put_line_steap to draw the line
  */
-void	draw_line(t_data *data, t_point *p1, t_point *p2, int color)
+void	draw_line(mlx_image_t *data, t_point *p1, t_point *p2, int color)
 {
 	double	slope;
 
@@ -104,15 +104,15 @@ void	draw_line(t_data *data, t_point *p1, t_point *p2, int color)
 		put_line_gentle(data, p1, p2, color);
 }
 
-void	draw_cross(t_data *img_data, int pos[2], int size)
+void	draw_cross(mlx_image_t *img, int pos[2], int size)
 {
 	int	i;
 
 	i = -size;
 	while (i < size)
 	{
-		put_pixel(img_data, pos[0] + i, pos[1], RED);
-		put_pixel(img_data, pos[0], pos[1] + i, RED);
+		mlx_put_pixel(img, pos[0] + i, pos[1], RED);
+		mlx_put_pixel(img, pos[0], pos[1] + i, RED);
 		i++;
 	}
 }

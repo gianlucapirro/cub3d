@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/04 09:33:37 by hthomas           #+#    #+#             */
-/*   Updated: 2022/10/14 13:00:57 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
+/*   Updated: 2022/10/27 19:04:35 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,10 @@
 # include <unistd.h>
 # include "libft.h"
 # include <stdbool.h>
-# include <mlx.h>
+# include <MLX42.h>
 # include <list.h>
 # include <gnl.h>
 # include <math.h>
-
-typedef struct s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		w;
-	int		h;
-}		t_data;
 
 typedef struct s_point {
 	int	x;
@@ -43,18 +33,18 @@ typedef struct s_point {
 
 typedef struct s_config
 {
-	t_data	texture;
-	t_data	textures[4];
-	int		floorcolor;
-	int		ceilingcolor;
-	int		**map;
-	int		dimensions[2];
-	int		player_size[2];
-	int		block_size[2];
-	float	direction[2];
-	float	pos[2];
-	void	*mlx;
-	void	*mlx_win;
+	mlx_texture_t	*textures[4];
+	mlx_image_t		*img;
+	int				floorcolor;
+	int				ceilingcolor;
+	int				**map;
+	int				dimensions[2];
+	int				player_size[2];
+	int				block_size[2];
+	float			direction[2];
+	float			pos[2];
+	int				i;
+	mlx_t			*mlx;
 }	t_config;
 
 typedef struct s_matrix
@@ -187,43 +177,25 @@ void	print_maparray(int dimensions[2], int **map);
 void	error_handling(int argc, t_config *config);
 
 //minilibx+
-void	put_pixel(t_data *data, int x, int y, int color);
-int		render_next_frame(void *tmp);
+void	render_next_frame(void *tmp);
 
 //drawing
-int		draw_minimap(t_config *config, t_data *img_data);
-int		draw_wall(t_config *c, t_data *img_d, int wall[3], int color);
-int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
+int		draw_minimap(t_config *config, mlx_image_t *img);
+int		draw_wall(t_config *c, mlx_image_t *img_d, int wall[3], int color);
+int		draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2]);
 int		draw_rectangle(int pos[2], int dimensions[2], \
-		t_data *img_data, int color);
-void	draw_line(t_data *data, t_point *p1, t_point *p2, int color);
-void	draw_cross(t_data *img_data, int pos[2], int size);
+		mlx_image_t *img, int color);
+void	draw_line(mlx_image_t *data, t_point *p1, t_point *p2, int color);
+void	draw_cross(mlx_image_t *img, int pos[2], int size);
 
 //events
-int		key_press(int keycode, t_config	*config);
+void	key_press(mlx_key_data_t keycode, void *config);
 void	print_maparray(int dimensions[2], int **map);
-/******************************************************************************/
-/* Checks if the wall exist, if so set the correct position of the ray on     */
-/* the wall. It flips coordinates of NORTH and WEST to make sure the          */
-/* texture is rendered correctly (position must be left to right)             */
-/*                                                                            */
-/* @param t_config* config:                                         	      */
-/*      Configuration struct                                                  */
-/* @param float inter[2]:                                                     */
-/*      Point of intersection                                                 */
-/* @param int wall[3]:                                                        */
-/*      Coordinates of wall and the directions it faces                       */
-/* @param int ray[4]:                                                         */
-/*      Result is put into this variable, the x, y, direction, ray position on*/
-/*      wall                                                                  */
-/* @return (t_bool):                                                          */
-/*      SUCCES if wall was found FAILED if not                                */
-/******************************************************************************/
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 int		rotate(float vec[2], float deg);
 int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
 int		draw_minimap_line(t_config *config, \
-		t_data *img_data, float start[2], float end[2]);
+		mlx_image_t *img, float start[2], float end[2]);
 int		first_intersect_v(float pos[2], float direc[2], float intersect[3]);
 int		first_intersect_h(float pos[2], float direc[2], float intersect[3]);
 
@@ -232,7 +204,7 @@ float	fix_fish_eye(float pos[2], float inter[2], float direc[2]);
 double	dabs(double x);
 int		get_next_intersect(float vec[3], \
 		float direc[2], float pos[2], int v_or_h);
-int		draw_minimap_cross(t_config *conf, t_data *img_data, float pos[2]);
+int		draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2]);
 int		free_array(char **arr);
 float	calc_dist(float *p1, float *p2);
 t_bool	intersect_to_wall(float direc[2], float inter[2], \

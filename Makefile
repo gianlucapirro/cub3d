@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/10/18 09:29:51 by gianlucapir      ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: gpirro <gpirro@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2020/05/04 09:45:09 by hthomas       #+#    #+#                  #
+#    Updated: 2022/10/27 14:45:54 by gpirro        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,11 @@ LIBFTDIR	= 	./libft/
 
 GNL			=	get_next_line.c
 
-LIBMLXDIR	=	 mlx
+LIBMLXDIR	=	 mlx42
 # LIBMLXDIR	=	 mlx_linux
-MLX_INCLUDE = 	-framework OpenGL -framework AppKit
-LIBMLX 		= 	libmlx.a
+MLX_INCLUDE = 	-I include -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -Lmlx42 -lmlx42
+LIBMLX 		= 	libmlx42.a
 # LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx_linux
-LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx
 
 ################################## DIRECTORIES
 
@@ -100,7 +99,6 @@ all : $(LIBFT) $(LIBMLXDIR)/$(LIBMLX) $(NAME)
 
 $(NAME) : $(OBJS) $(INC) $(LIBFT) $(LIBMLXDIR)/$(LIBMLX)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) $(LIBMLXLINK) $(MLX_INCLUDE)
-# $(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 $(LIBFT) :
 	make -C libft all
