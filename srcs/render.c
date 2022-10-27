@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:35:24 by gpirro            #+#    #+#             */
-/*   Updated: 2022/10/14 13:03:49 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/10/18 09:31:52 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,24 @@ unsigned int	get_pixel(t_data *img, float x, float y)
 	return (*(unsigned int *)dst);
 }
 
-int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
+int	put_img_col_start(t_data *img_data, int x, int start)
+{
+	int	i;
+
+	i = -1;
+	while (++i < start)
+		put_pixel(img_data, x, i, 0x000000FF);
+	return (0);
+}
+
+int put_img_col_end(t_data *img_data, int x, int i)
+{
+	while (++i < WINDOW_HEIGHT)
+		put_pixel(img_data, x, i, 0x0000FF00);
+	return (0);
+}
+
+void	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 {
 	int				i;
 	float			y;
@@ -47,9 +64,7 @@ int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 
 	start = (WINDOW_HEIGHT - (int)(WINDOW_HEIGHT / ray->distance)) / 2;
 	end = WINDOW_HEIGHT - start;
-	i = -1;
-	while (++i < start)
-		put_pixel(img_data, x, i, 0x000000FF);
+	put_img_col_start(img_data, x, start);
 	i = start - 1;
 	while (++i < end)
 	{
@@ -67,10 +82,7 @@ int	put_img_column(t_config *config, t_data *img_data, t_ray *ray, int x)
 			put_pixel(img_data, x, i, get_pixel(&(config->textures[EAST]), \
 			ray->pos_on_wall, y));
 	}
-	i = end - 1;
-	while (++i < WINDOW_HEIGHT)
-		put_pixel(img_data, x, i, 0x0000FF00);
-	return (0);
+	put_img_col_end(img_data, x, end - 1);
 }
 
 int	cast_all_lines(t_config *config, t_data *img_data)

@@ -6,7 +6,7 @@
 #    By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/04 09:45:09 by hthomas           #+#    #+#              #
-#    Updated: 2022/10/14 09:49:39 by gianlucapir      ###   ########.fr        #
+#    Updated: 2022/10/18 09:29:51 by gianlucapir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,7 @@ ERROR		=	error.c\
 				errorutils.c\
 				get_fn.c
 
-DRAWING		=	quad.c\
-				drawline.c
+DRAWING		=	drawline.c
 
 MATH		=	rotate.c\
 				math_utils.c
