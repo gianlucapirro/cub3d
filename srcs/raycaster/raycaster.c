@@ -6,90 +6,11 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/24 19:33:37 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/10/27 18:16:56 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 12:28:14 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-int	first_intersect_h(float pos[2], float direc[2], float intersect[3])
-{
-	float	x;
-	float	y;
-	float	dx;
-	float	dy;
-
-	if (direc[1] == 0)
-	{
-		intersect[2] = INFINITY_INT;
-		return (NOT_FOUND);
-	}
-	else if (direc[1] < 0)
-		y = floor(pos[1]);
-	else
-		y = ceil(pos[1]);
-	dy = pos[1] - y;
-	dx = dy / direc[1] * direc[0];
-	x = pos[0] - dx;
-	intersect[0] = x;
-	intersect[1] = y;
-	intersect[2] = calc_dist(intersect, pos);
-	return (SUCCES);
-}
-
-int	first_intersect_v(float pos[2], float direc[2], float intersect[3])
-{
-	float	x;
-	float	y;
-	float	dx;
-	float	dy;
-
-	if (direc[0] == 0)
-	{
-		intersect[2] = INFINITY_INT;
-		return (NOT_FOUND);
-	}
-	else if (direc[0] < 0)
-		x = floor(pos[0]);
-	else
-		x = ceil(pos[0]);
-	dx = pos[0] - x;
-	dy = dx / direc[0] * direc[1];
-	y = pos[1] - dy;
-	intersect[0] = x;
-	intersect[1] = y;
-	intersect[2] = calc_dist(intersect, pos);
-	return (SUCCES);
-}
-
-int	get_next_intersect(float vec[3], \
-float direc[2], float pos[2], int v_or_h)
-{
-	float	d;
-	float	new_vec[2];
-	int		a;
-	int		b;
-
-	a = v_or_h;
-	b = 1 - v_or_h;
-	if (vec[2] == INFINITY_INT)
-		return (FAILED);
-	d = 1 / direc[a] * direc[b];
-	if (direc[a] < 0)
-	{
-		new_vec[b] = vec[b] - d;
-		new_vec[a] = vec[a] - 1;
-	}
-	else
-	{
-		new_vec[b] = vec[b] + d;
-		new_vec[a] = vec[a] + 1;
-	}
-	vec[a] = new_vec[a];
-	vec[b] = new_vec[b];
-	vec[2] = calc_dist(vec, pos);
-	return (SUCCES);
-}
 
 int	get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray)
 {
@@ -143,4 +64,81 @@ t_bool	intersect_to_wall(float direc[2], float inter[2], int wall[3], int axis)
 		wall[2] = EAST;
 	}
 	return (TRUE);
+}
+
+int	get_next_intersect(float vec[3], \
+float direc[2], float pos[2], int v_or_h)
+{
+	float	d;
+	float	new_vec[2];
+	int		a;
+	int		b;
+
+	a = v_or_h;
+	b = 1 - v_or_h;
+	if (vec[2] == INFINITY_INT)
+		return (FAILED);
+	d = 1 / direc[a] * direc[b];
+	if (direc[a] < 0)
+	{
+		new_vec[b] = vec[b] - d;
+		new_vec[a] = vec[a] - 1;
+	}
+	else
+	{
+		new_vec[b] = vec[b] + d;
+		new_vec[a] = vec[a] + 1;
+	}
+	vec[a] = new_vec[a];
+	vec[b] = new_vec[b];
+	vec[2] = calc_dist(vec, pos);
+	return (SUCCES);
+}
+
+//inter has intersec x and y in each array is x, y, distance
+int	cast(t_config *config, t_ray *ray, float direction[2], float angle)
+{
+	float	inter[2][3];
+	int		v_or_h;
+	int		wall[3];
+
+	first_intersect_v(config->pos, direction, inter[0]);
+	first_intersect_h(config->pos, direction, inter[1]);
+	while (1)
+	{
+		v_or_h = inter[0][2] > inter[1][2];
+		intersect_to_wall(direction, inter[v_or_h], wall, v_or_h);
+		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || \
+		get_wall(config, inter[v_or_h], wall, ray) == 3)
+		{
+			ray->distance = inter[v_or_h][2] * \
+			(float)cos((double)deg_to_rad(angle));
+			break ;
+		}
+		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
+	}
+	if (ray == NULL)
+		return (FAILED);
+	return (SUCCES);
+}
+
+int	cast_all_lines(t_config *config, mlx_image_t *img)
+{
+	float	step_size;
+	t_ray	ray;
+	float	direction[2];
+	int		i;
+
+	i = 0;
+	step_size = FOV / WINDOW_WIDTH;
+	while (i < WINDOW_WIDTH)
+	{
+		direction[0] = config->direction[0];
+		direction[1] = config->direction[1];
+		rotate(direction, (i * step_size) + (FOV / -2));
+		if (cast(config, &ray, direction, i * step_size - FOV / 2) != FAILED)
+			put_img_column(config, img, &ray, WINDOW_WIDTH - i - 1);
+		i++;
+	}
+	return (0);
 }

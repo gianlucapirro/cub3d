@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 12:33:15 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/10/27 18:19:54 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 12:06:24 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,34 +59,8 @@ int	draw_wall(t_config *c, mlx_image_t *img_d, int wall[3], int color)
 	t_point	s;
 	t_point	e;
 
-	if (wall[2] == NORTH)
-	{
-		s.x = wall[0];
-		s.y = wall[1] + 1;
-		e.x = wall[0] + 1;
-		e.y = wall[1] + 1;
-	}
-	if (wall[2] == EAST)
-	{
-		s.x = wall[0] + 1;
-		s.y = wall[1];
-		e.x = wall[0] + 1;
-		e.y = wall[1] + 1;
-	}
-	if (wall[2] == SOUTH)
-	{
-		s.x = wall[0];
-		s.y = wall[1];
-		e.x = wall[0] + 1;
-		e.y = wall[1];
-	}
-	if (wall[2] == WEST)
-	{
-		s.x = wall[0];
-		s.y = wall[1];
-		e.x = wall[0];
-		e.y = wall[1] + 1;
-	}
+	set_data_wall_ns(&s, &e, wall);
+	set_data_wall_ew(&s, &e, wall);
 	s.x *= c->block_size[0];
 	s.y *= c->block_size[1];
 	e.x *= c->block_size[0];
@@ -113,7 +87,8 @@ int	draw_minimap(t_config *config, mlx_image_t *img)
 		{
 			pos[0] = x * (int)(config->block_size[0]);
 			pos[1] = img->height - (y * (int)(config->block_size[1]));
-			draw_rectangle(pos, config->block_size, img, colors[config->map[y][x]]);
+			draw_rectangle(pos, config->block_size, \
+			img, colors[config->map[y][x]]);
 		}
 	}
 	draw_minimap_player(config, img);

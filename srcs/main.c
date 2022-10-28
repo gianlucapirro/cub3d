@@ -6,27 +6,13 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:32:30 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/10/27 16:24:23 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 14:10:01 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 #include <stdio.h>
 
-/******************************************************************************/
-/* Function: setup_config                                                     */
-/* Description:                                                               */
-/*      This funciton set-ups the config struct with all necesarry information*/
-/*      to start the game                                                     */
-/* t_config *config:                                                          */
-/*      Configuration struct with all information to start the game           */
-/* int argc:                                                                  */
-/*      Amount of arguments of program                                        */
-/* char *argv[]:                                                              */
-/*      arguments of executable                                               */
-/* Returns (int):                                                             */
-/*      SUCCES                                                                */
-/******************************************************************************/
 int	setup_config(t_config *config, int argc, char *argv[])
 {
 	char		*fn;

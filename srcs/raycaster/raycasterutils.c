@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/14 09:46:29 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/10/27 18:20:33 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 12:27:01 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,52 @@ float	fix_fish_eye(float pos[2], float inter[2], float direc[2])
 	return (d);
 }
 
-//inter has intersec x and y in each array is x, y, distance
-int	cast(t_config *config, t_ray *ray, float direction[2], float angle)
+int	first_intersect_h(float pos[2], float direc[2], float intersect[3])
 {
-	float	inter[2][3];
-	int		v_or_h;
-	int		wall[3];
+	float	x;
+	float	y;
+	float	dx;
+	float	dy;
 
-	first_intersect_v(config->pos, direction, inter[0]);
-	first_intersect_h(config->pos, direction, inter[1]);
-	while (1)
+	if (direc[1] == 0)
 	{
-		v_or_h = inter[0][2] > inter[1][2];
-		intersect_to_wall(direction, inter[v_or_h], wall, v_or_h);
-		if (get_wall(config, inter[v_or_h], wall, ray) == SUCCES || \
-		get_wall(config, inter[v_or_h], wall, ray) == 3)
-		{
-			ray->distance = inter[v_or_h][2] * \
-			(float)cos((double)deg_to_rad(angle));
-			break ;
-		}
-		get_next_intersect(inter[v_or_h], direction, config->pos, v_or_h);
+		intersect[2] = INFINITY_INT;
+		return (NOT_FOUND);
 	}
-	if (ray == NULL)
-		return (FAILED);
+	else if (direc[1] < 0)
+		y = floor(pos[1]);
+	else
+		y = ceil(pos[1]);
+	dy = pos[1] - y;
+	dx = dy / direc[1] * direc[0];
+	x = pos[0] - dx;
+	intersect[0] = x;
+	intersect[1] = y;
+	intersect[2] = calc_dist(intersect, pos);
+	return (SUCCES);
+}
+
+int	first_intersect_v(float pos[2], float direc[2], float intersect[3])
+{
+	float	x;
+	float	y;
+	float	dx;
+	float	dy;
+
+	if (direc[0] == 0)
+	{
+		intersect[2] = INFINITY_INT;
+		return (NOT_FOUND);
+	}
+	else if (direc[0] < 0)
+		x = floor(pos[0]);
+	else
+		x = ceil(pos[0]);
+	dx = pos[0] - x;
+	dy = dx / direc[0] * direc[1];
+	y = pos[1] - dy;
+	intersect[0] = x;
+	intersect[1] = y;
+	intersect[2] = calc_dist(intersect, pos);
 	return (SUCCES);
 }

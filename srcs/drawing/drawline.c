@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/24 17:16:24 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/10/27 18:13:45 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 11:24:01 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static void	swap_smallest(int *a1, double *b1, int *a2, double *b2)
  This function is used when the slope is smaller than 1 to
  draw a steap line
  */
-static void	put_line_steap(mlx_image_t *data, t_point *p1, t_point *p2, int color)
+static void	put_line_steap(mlx_image_t *data, t_point *p1, \
+t_point *p2, int color)
 {
 	double	slope;
 	int		x1;
@@ -61,7 +62,8 @@ static void	put_line_steap(mlx_image_t *data, t_point *p1, t_point *p2, int colo
  This function is used when the slope is bigger than 1
  to draw a gentle line
  */
-static void	put_line_gentle(mlx_image_t *data, t_point *p1, t_point *p2, int color)
+static void	put_line_gentle(mlx_image_t *data, t_point *p1, \
+t_point *p2, int color)
 {
 	double	slope;
 	double	x1;

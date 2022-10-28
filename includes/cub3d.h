@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/10/27 19:04:35 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 14:10:16 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,7 @@ void	error_handling(int argc, t_config *config);
 void	render_next_frame(void *tmp);
 
 //drawing
-int		draw_minimap(t_config *config, mlx_image_t *img);
 int		draw_wall(t_config *c, mlx_image_t *img_d, int wall[3], int color);
-int		draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2]);
 int		draw_rectangle(int pos[2], int dimensions[2], \
 		mlx_image_t *img, int color);
 void	draw_line(mlx_image_t *data, t_point *p1, t_point *p2, int color);
@@ -194,20 +192,28 @@ void	print_maparray(int dimensions[2], int **map);
 int		get_wall(t_config *config, float inter[2], int wall[3], t_ray *ray);
 int		rotate(float vec[2], float deg);
 int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
-int		draw_minimap_line(t_config *config, \
-		mlx_image_t *img, float start[2], float end[2]);
 int		first_intersect_v(float pos[2], float direc[2], float intersect[3]);
 int		first_intersect_h(float pos[2], float direc[2], float intersect[3]);
 
+//render
+void	put_img_column(t_config *config, mlx_image_t *img, t_ray *ray, int x);
 int		get_closest_intersection(t_config *config, float *inter[2]);
 float	fix_fish_eye(float pos[2], float inter[2], float direc[2]);
 double	dabs(double x);
 int		get_next_intersect(float vec[3], \
 		float direc[2], float pos[2], int v_or_h);
-int		draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2]);
 int		free_array(char **arr);
 float	calc_dist(float *p1, float *p2);
 t_bool	intersect_to_wall(float direc[2], float inter[2], \
 		int wall[3], int axis);
+int		cast_all_lines(t_config *config, mlx_image_t *img);
+
+//minimap
+int		draw_minimap(t_config *config, mlx_image_t *img);
+int		set_data_wall_ns(t_point *s, t_point *e, int wall[3]);
+int		set_data_wall_ew(t_point *s, t_point *e, int wall[3]);
+int		draw_minimap_cross(t_config *conf, mlx_image_t *img, float pos[2]);
+int		draw_minimap_line(t_config *config, \
+		mlx_image_t *img, float start[2], float end[2]);
 
 #endif

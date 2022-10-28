@@ -6,7 +6,7 @@
 #    By: gpirro <gpirro@student.42.fr>                +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/05/04 09:45:09 by hthomas       #+#    #+#                  #
-#    Updated: 2022/10/27 14:45:54 by gpirro        ########   odam.nl          #
+#    Updated: 2022/10/28 12:21:06 by gpirro        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME 		= 	CUB3D
 
 ################################## VPATH
 
-VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events ./srcs/drawing ./srcs/debug ./srcs/math ./srcs/raycaster
+VPATH		=	./gnl/ ./list/ ./srcs/ ./srcs/parsing/ ./srcs/error/ ./srcs/events ./srcs/drawing ./srcs/debug ./srcs/math ./srcs/raycaster ./srcs/minimap
 
 ################################## LIBRARIES
 
@@ -37,31 +37,32 @@ LIBFTDIR	= 	./libft/
 GNL			=	get_next_line.c
 
 LIBMLXDIR	=	 mlx42
-# LIBMLXDIR	=	 mlx_linux
 MLX_INCLUDE = 	-I include -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -Lmlx42 -lmlx42
 LIBMLX 		= 	libmlx42.a
-# LIBMLXLINK 	= 	-L $(LIBMLXDIR) -lmlx_linux
 
 ################################## DIRECTORIES
 
-PARSING		=	parsing.c\
-				parsingutils.c\
-				startingpos.c\
+PARSING		=	parsing.c \
+				parsingutils.c \
+				startingpos.c \
 				parsetexture.c
 
 EVENTS		=	keypress.c
 
-ERROR		=	error.c\
-				errorutils.c\
+ERROR		=	error.c \
+				errorutils.c \
 				get_fn.c
 
 DRAWING		=	drawline.c
 
-MATH		=	rotate.c\
+MATH		=	rotate.c \
 				math_utils.c
 
 RAYCASTER	=	raycaster.c \
 				raycasterutils.c
+
+MINIMAP		=	minimap.c \
+				minimap_utils.c
 
 ################################## FLAGS
 
@@ -82,8 +83,8 @@ SRCS		=	$(LIST) \
 				$(DRAWING) \
 				$(MATH) \
 				$(RAYCASTER) \
+				$(MINIMAP) \
 				render.c \
-				minimap.c \
 				utils.c \
 				main.c
 
@@ -110,7 +111,7 @@ $(LIBMLXDIR)/$(LIBMLX) :
 	$(CC) -c $(CFLAGS) -I $(INCL) -o $@ $<
 
 norminette:
-	norminette	gnl libft list srcs $(filter-out ./includes/mlx.h ./includes/.DS_Store, $(shell find $(INCL) -mindepth 1))
+	norminette	gnl libft list srcs $(filter-out ./includes/mlx.h ./includes/MLX42.h ./includes/MLX42_Input.h ./includes/.DS_Store, $(shell find $(INCL) -mindepth 1))
 
 sanitize: fclean
 	@$(MAKE) sanitize=1
