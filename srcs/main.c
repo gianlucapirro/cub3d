@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:32:30 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/10/28 14:10:01 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 13:21:00 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	setup_config(t_config *config, int argc, char *argv[])
 	return (SUCCES);
 }
 
-//TODO: make inter struct instead of float inter[2] in raycaster.c
-//TODO: esc en kruisje moeten program stoppen
-//TODO: Map color werkt met comma moet fout gaan.
+//TODO: map with hole in there
 int	main(int argc, char *argv[])
 {
 	t_config	config;
@@ -41,6 +39,7 @@ int	main(int argc, char *argv[])
 	setup_config(&config, argc, argv);
 	config.i = 0;
 	config.img = mlx_new_image(config.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	mlx_image_to_window(config.mlx, config.img, 0, 0);
 	mlx_key_hook(config.mlx, key_press, (void *)&config);
 	mlx_loop_hook(config.mlx, &render_next_frame, &config);
 	mlx_loop(config.mlx);

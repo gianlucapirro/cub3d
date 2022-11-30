@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/26 21:37:36 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/10/27 15:14:22 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 12:59:12 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static int	parse_number(char *str)
 	str = ft_strtrim(str, " ");
 	if (!str)
 		exit_error("Error\nMalloc failed", MALLOC_ERROR);
-	if (ft_strlen(str) > 3 || ft_strlen(str) <= 0)
+	if (ft_strlen(str) <= 0)
 		exit_error("Error\nNot a valid color number", PARSE_ERROR);
 	i = -1;
 	while (str[++i] && str[i] != '\n')
 		if (!ft_isdigit(str[i]))
 			exit_error("Error\nNot a valid color number", PARSE_ERROR);
-	str[ft_strlen(str) - 1] = '\0';
+	str[ft_strlen(str)] = '\0';
 	i = ft_atoi(str);
-	if (i > 255)
+	if (i > 255 || i < 0)
 		exit_error("Error\nNot a valid color number", PARSE_ERROR);
 	free(str);
 	return (i);
@@ -65,7 +65,7 @@ static int	parse_floor_ceiling(int *color, char *line)
 	i = -1;
 	if (!split)
 		exit_error("Error\nMalloc failed", MALLOC_ERROR);
-	if (ft_arr_len(split) != 3)
+	if (ft_arr_len(split) != 3 || split[2][0] == '\n')
 		exit_error("Error\nNot a valid color code", PARSE_ERROR);
 	i = -1;
 	while (split[++i])

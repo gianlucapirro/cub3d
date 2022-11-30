@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 16:41:29 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/07/01 17:20:26 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   error.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/19 16:41:29 by gianlucapir   #+#    #+#                 */
+/*   Updated: 2022/10/28 17:02:58 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,13 @@ static int	is_surrounded_walls_v(t_config *config)
 void	error_handling(int argc, t_config *config)
 {
 	if (argc != 2)
-		exit_error("Please give one map as an argument", ARGUMENT_ERROR);
+		exit_error("Error\nPlease give one map as an argument", ARGUMENT_ERROR);
 	if (check_start_pos(config) == FAILED)
-		exit_error("Map must have one start position", INVALID_MAP);
+		exit_error("Error\nMap must have one start position", INVALID_MAP);
 	if (is_invalid_obj_in_map(config) == FAILED)
-		exit_error("Map contains invalid object(s)", INVALID_MAP);
+		exit_error("Error\nMap contains invalid object(s)", INVALID_MAP);
 	if (is_surrounded_walls_h(config) == FAILED)
-		exit_error("Map not surrounder by walls", INVALID_MAP);
+		exit_error("Error\nMap not surrounder by walls", INVALID_MAP);
 	if (is_surrounded_walls_v(config) == FAILED)
-		exit_error("Map not surrounder by walls", INVALID_MAP);
+		exit_error("Error\nMap not surrounder by walls", INVALID_MAP);
 }

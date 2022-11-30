@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/10/27 15:12:38 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 13:20:21 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	get_map_object_type(char c)
 	return (OTHER);
 }
 
+//TODO: free map on end of program
 /**
  * @brief loops till the end of linesread, for every char in the str
  * of each read line it will put the value in the map. Does it in reverse

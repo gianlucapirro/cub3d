@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   errorutils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 18:53:29 by gianlucapir       #+#    #+#             */
-/*   Updated: 2022/06/20 18:52:36 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   errorutils.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/18 18:53:29 by gianlucapir   #+#    #+#                 */
+/*   Updated: 2022/11/30 12:32:40 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	exit_error(char *msg, int exitcode)
 {
-	perror(msg);
+	write(2, (void *)msg, ft_strlen(msg));
+	write(2, "\n", 1);
 	exit(exitcode);
 }
 

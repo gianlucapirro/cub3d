@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/10/28 14:10:16 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 16:17:40 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ typedef enum e_textures
 # define WINDOW_HEIGHT 800
 # define PI 3.14159
 # define FOV 60.0
-# define PACE	0.25
-# define ROTATION_SPEED	10
+# define PACE 0.25
+# define ROTATION_SPEED	5
 # define INFINITY_INT 1000000
 
 //libft+

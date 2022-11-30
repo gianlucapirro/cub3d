@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/26 16:13:45 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/10/28 14:14:09 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/10/28 16:39:34 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	rotate_player(t_config *config, float deg)
 	return (SUCCES);
 }
 
-int	close_win(t_config *config)
+static void	close_win(t_config *config)
 {
 	mlx_delete_image(config->mlx, config->img);
-	return (SUCCES);
+	exit(SUCCES);
 }
 
 /*
@@ -90,5 +90,5 @@ void	key_press(mlx_key_data_t rkey, void	*data)
 	if (key == ARROW_L)
 		rotate_player(config, 5);
 	if (key == ESC)
-		exit(1);
+		close_win(config);
 }
