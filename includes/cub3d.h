@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/10/28 16:17:40 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 15:23:16 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void	print_maparray(int dimensions[2], int **map);
 
 //error
 void	error_handling(int argc, t_config *config);
+int		can_be_opened(char *fn);
 
 //minilibx+
 void	render_next_frame(void *tmp);

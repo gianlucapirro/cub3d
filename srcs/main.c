@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:32:30 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/11/30 13:21:00 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 13:32:44 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	setup_config(t_config *config, int argc, char *argv[])
 	return (SUCCES);
 }
 
-//TODO: map with hole in there
 int	main(int argc, char *argv[])
 {
 	t_config	config;
@@ -43,5 +42,6 @@ int	main(int argc, char *argv[])
 	mlx_key_hook(config.mlx, key_press, (void *)&config);
 	mlx_loop_hook(config.mlx, &render_next_frame, &config);
 	mlx_loop(config.mlx);
+	exit (SUCCES);
 	return (0);
 }

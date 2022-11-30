@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/26 21:37:36 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/11/30 12:59:12 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 15:24:48 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,27 @@
 
 int	encode_rgb(int r, int g, int b)
 {
-	return (r << 16 | g << 8 | b);
+	(void)r;
+	(void)g;
+	(void)b;
+	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
 static int	parse_texture(mlx_texture_t **texture, char *line)
 {
+	int	fd;
+
 	line += 3;
 	while (*line && *line == ' ')
 		line++;
 	if (*line == 0)
 		exit_error("Error\nNo texture file provided", PARSE_ERROR);
 	line[ft_strlen(line) - 1] = 0;
+	if (can_be_opened(line) == 0)
+		exit_error("Error\nCould not open texture", PARSE_ERROR);
 	*texture = mlx_load_png(line);
+	if (texture == NULL)
+		exit_error("Error\nCould not open texture", PARSE_ERROR);
 	return (SUCCES);
 }
 

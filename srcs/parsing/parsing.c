@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/11/30 13:20:21 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 15:25:53 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	file2list(char *fn, t_list_m	**linesread)
 	int			fd;
 	char		*buffer;
 
+	if (can_be_opened(fn) == 0)
+		exit_error("Could not open file", OPEN_ERROR);
 	fd = open(fn, O_RDONLY);
 	if (fd < 0)
 		exit_error("Could not open file", OPEN_ERROR);
@@ -101,7 +103,6 @@ int	get_map_object_type(char c)
 	return (OTHER);
 }
 
-//TODO: free map on end of program
 /**
  * @brief loops till the end of linesread, for every char in the str
  * of each read line it will put the value in the map. Does it in reverse

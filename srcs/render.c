@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/17 13:35:24 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/11/30 12:25:31 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 14:35:03 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ void	render_next_frame(void *tmp)
 
 	config = (t_config *)(tmp);
 	cast_all_lines(config, config->img);
-	draw_minimap(config, config->img);
+	// draw_minimap(config, config->img)
 }
