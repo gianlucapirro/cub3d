@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:33:37 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/11/30 15:23:16 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/12/01 10:23:27 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_config
 	float			direction[2];
 	float			pos[2];
 	int				i;
+	int				draw_minimap;
 	mlx_t			*mlx;
 }	t_config;
 
@@ -150,9 +151,9 @@ typedef enum e_textures
 # define WINDOW_HEIGHT 800
 # define PI 3.14159
 # define FOV 60.0
-# define PACE 0.25
-# define ROTATION_SPEED	5
+# define PACE 0.13
 # define INFINITY_INT 1000000
+# define ROTATION_SPEED 2
 
 //libft+
 void	exit_error(char *msg, int exitcode);
@@ -186,6 +187,7 @@ int		draw_rectangle(int pos[2], int dimensions[2], \
 		mlx_image_t *img, int color);
 void	draw_line(mlx_image_t *data, t_point *p1, t_point *p2, int color);
 void	draw_cross(mlx_image_t *img, int pos[2], int size);
+void	put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color);
 
 //events
 void	key_press(mlx_key_data_t keycode, void *config);
@@ -195,6 +197,8 @@ int		rotate(float vec[2], float deg);
 int		cast(t_config *config, t_ray *ray, float direction[2], float angle);
 int		first_intersect_v(float pos[2], float direc[2], float intersect[3]);
 int		first_intersect_h(float pos[2], float direc[2], float intersect[3]);
+int		rotate_player(t_config *config, float deg);
+int		is_valid_pos(t_config	*config, float x, float y);
 
 //render
 void	put_img_column(t_config *config, mlx_image_t *img, t_ray *ray, int x);

@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/28 12:03:55 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/10/28 12:22:12 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 16:15:05 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	draw_rectangle(int pos[2], int dimensions[2], mlx_image_t *img, int color)
 	{
 		h = -1;
 		while (++h < dimensions[1])
-			mlx_put_pixel(img, x + w, y - h, color);
+			put_pixel(img, x + w, y - h, color);
 	}
 	return (SUCCES);
 }

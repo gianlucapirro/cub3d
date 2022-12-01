@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/17 13:35:24 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/11/30 14:35:03 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/12/01 10:21:32 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ int start, t_config *config)
 
 	i = -1;
 	while (++i < start)
-		mlx_put_pixel(img, x, i, config->ceilingcolor);
+		put_pixel(img, x, i, config->ceilingcolor);
 	return (0);
 }
 
 static int	put_img_col_end(mlx_image_t *img, int x, int i, t_config *config)
 {
 	while (++i < WINDOW_HEIGHT)
-		mlx_put_pixel(img, x, i, config->floorcolor);
+		put_pixel(img, x, i, config->floorcolor);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ void	put_img_column(t_config *config, mlx_image_t *img, t_ray *ray, int x)
 	while (++i < end && i < WINDOW_HEIGHT)
 	{
 		y = (float)(i - start) / (float)(end - start);
-		mlx_put_pixel(img, x, i, get_pixel((config->textures[ray->direction]), \
+		put_pixel(img, x, i, get_pixel((config->textures[ray->direction]), \
 		ray->pos_on_wall, y));
 	}
 	put_img_col_end(img, x, end - 1, config);
@@ -77,8 +77,25 @@ void	put_img_column(t_config *config, mlx_image_t *img, t_ray *ray, int x)
 void	render_next_frame(void *tmp)
 {
 	t_config	*config;
+	float		d[2];
 
 	config = (t_config *)(tmp);
+	d[0] = config->direction[0] * PACE;
+	d[1] = config->direction[1] * PACE;
+	if (mlx_is_key_down(config->mlx, MLX_KEY_W))
+		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
+	if (mlx_is_key_down(config->mlx, MLX_KEY_S))
+		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
+	rotate(d, 90);
+	if (mlx_is_key_down(config->mlx, MLX_KEY_D))
+		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
+	if (mlx_is_key_down(config->mlx, MLX_KEY_A))
+		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
+	if (mlx_is_key_down(config->mlx, MLX_KEY_RIGHT))
+		rotate_player(config, -ROTATION_SPEED);
+	if (mlx_is_key_down(config->mlx, MLX_KEY_LEFT))
+		rotate_player(config, ROTATION_SPEED);
 	cast_all_lines(config, config->img);
-	// draw_minimap(config, config->img)
+	if (config->draw_minimap)
+		draw_minimap(config, config->img);
 }

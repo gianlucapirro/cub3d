@@ -6,7 +6,7 @@
 #    By: gpirro <gpirro@student.42.fr>                +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/05/04 09:45:09 by hthomas       #+#    #+#                  #
-#    Updated: 2022/10/28 12:21:06 by gpirro        ########   odam.nl          #
+#    Updated: 2022/11/30 16:20:20 by gpirro        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ ERROR		=	error.c \
 				errorutils.c \
 				get_fn.c
 
-DRAWING		=	drawline.c
+DRAWING		=	drawline.c \
+				put_pixel.c
 
 MATH		=	rotate.c \
 				math_utils.c

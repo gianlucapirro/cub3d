@@ -6,12 +6,11 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/19 16:19:21 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/11/30 15:22:40 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/12/01 10:30:56 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
 
 int	can_be_opened(char *fn)
 {
@@ -30,18 +29,15 @@ int	can_be_opened(char *fn)
 	return (1);
 }
 
-
 void	get_fn(char **fn, char *argv[])
 {
 	int	fd;
 
-	fd = open(argv[1], O_RDWR);
+	if (can_be_opened(argv[1]) == 0)
+		exit_error("Could not open file", OPEN_ERROR);
+	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-	{
-
-		(*fn) = argv[1];
-	}
-	else
 		exit_error("Could not open map", OPEN_ERROR);
+	(*fn) = argv[1];
 	close(fd);
 }

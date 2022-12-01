@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/26 16:13:45 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/10/28 16:39:34 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 16:45:25 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param y 
  * @return int 
  */
-static int	is_valid_pos(t_config	*config, float x, float y)
+int	is_valid_pos(t_config	*config, float x, float y)
 {
 	int	pos_left;
 	int	pos_right;
@@ -67,28 +67,11 @@ of the keycodes in the if statements an action will take place.
 */
 void	key_press(mlx_key_data_t rkey, void	*data)
 {
-	float		d[2];
 	t_config	*config;
 	int			key;
 
 	key = rkey.os_key;
 	config = (t_config *)data;
-	d[0] = config->direction[0] * PACE;
-	d[1] = config->direction[1] * PACE;
-	if (key == A || key == D)
-		rotate(d, 90);
-	if (key == W)
-		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
-	if (key == D)
-		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
-	if (key == S)
-		is_valid_pos(config, config->pos[0] - d[0], config->pos[1] - d[1]);
-	if (key == A)
-		is_valid_pos(config, config->pos[0] + d[0], config->pos[1] + d[1]);
-	if (key == ARROW_R)
-		rotate_player(config, -5);
-	if (key == ARROW_L)
-		rotate_player(config, 5);
 	if (key == ESC)
 		close_win(config);
 }

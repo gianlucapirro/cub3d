@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/18 18:34:48 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/11/30 15:25:53 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 17:03:30 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	file2list(char *fn, t_list_m	**linesread)
 	int			fd;
 	char		*buffer;
 
-	if (can_be_opened(fn) == 0)
-		exit_error("Could not open file", OPEN_ERROR);
 	fd = open(fn, O_RDONLY);
 	if (fd < 0)
 		exit_error("Could not open file", OPEN_ERROR);
@@ -155,6 +153,10 @@ int	parse(char *fn, t_config *config)
 	config->floorcolor = -1;
 	file2list(fn, &linesread);
 	parse_textures(config, linesread, linesread->len);
+	if (config->textures[NORTH] == NULL || config->textures[SOUTH] == NULL || \
+		config->textures[WEST] == NULL || config->textures[EAST] == NULL || \
+		config->ceilingcolor == -1 || config->floorcolor == -1)
+		exit_error("Error\nNot all values provided in map", PARSE_ERROR);
 	calc_dimensions(linesread, config->dimensions);
 	lst2maparray(linesread, config->dimensions, &config->map);
 	list_m_free(linesread, 1);

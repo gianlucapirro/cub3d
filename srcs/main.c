@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/04 09:32:30 by hthomas       #+#    #+#                 */
-/*   Updated: 2022/11/30 13:32:44 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 17:24:02 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,30 @@
 
 int	setup_config(t_config *config, int argc, char *argv[])
 {
-	char		*fn;
+	char	*fn;
+	int		map_size;		
 
-	config->player_size[0] = 3;
-	config->player_size[1] = 3;
-	config->block_size[0] = 10;
-	config->block_size[1] = 10;
-	config->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "CUB3D", true);
+	config->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "CUB3D", false);
 	if (!config->mlx)
 		exit_error("MLX init failed", MALLOC_ERROR);
 	get_fn(&fn, argv);
 	parse(fn, config);
 	error_handling(argc, config);
 	get_start_pos(config);
+	config->player_size[0] = 3;
+	config->player_size[1] = 3;
+	config->draw_minimap = 1;
+	map_size = config->dimensions[1];
+	if (config->dimensions[0] > config->dimensions[1])
+		map_size = config->dimensions[0];
+	map_size = (int)(300 / map_size);
+	if (map_size < 5)
+	{
+		config->draw_minimap = 0;
+		map_size = 5;
+	}
+	config->block_size[0] = map_size;
+	config->block_size[1] = map_size;
 	return (SUCCES);
 }
 

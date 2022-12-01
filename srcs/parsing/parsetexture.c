@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/26 21:37:36 by gianlucapir   #+#    #+#                 */
-/*   Updated: 2022/11/30 15:24:48 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 17:01:58 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	encode_rgb(int r, int g, int b)
 
 static int	parse_texture(mlx_texture_t **texture, char *line)
 {
-	int	fd;
-
+	if (*texture != NULL)
+		exit_error("Error\nDuplicate texture", PARSE_ERROR);
 	line += 3;
 	while (*line && *line == ' ')
 		line++;

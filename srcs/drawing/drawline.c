@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/24 17:16:24 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/10/28 11:24:01 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/11/30 16:15:05 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_point *p2, int color)
 	{
 		y1 += slope;
 		x1++;
-		mlx_put_pixel(data, x1, (int)y1, color);
+		put_pixel(data, x1, (int)y1, color);
 	}
 }
 
@@ -81,7 +81,7 @@ t_point *p2, int color)
 	{
 		x1 += slope;
 		y1++;
-		mlx_put_pixel(data, (int)x1, y1, color);
+		put_pixel(data, (int)x1, y1, color);
 	}
 }
 
@@ -113,8 +113,8 @@ void	draw_cross(mlx_image_t *img, int pos[2], int size)
 	i = -size;
 	while (i < size)
 	{
-		mlx_put_pixel(img, pos[0] + i, pos[1], RED);
-		mlx_put_pixel(img, pos[0], pos[1] + i, RED);
+		put_pixel(img, pos[0] + i, pos[1], RED);
+		put_pixel(img, pos[0], pos[1] + i, RED);
 		i++;
 	}
 }
